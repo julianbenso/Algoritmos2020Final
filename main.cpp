@@ -76,7 +76,6 @@ int split_child(BpTreeNode *x, int i, int a)
     int separarDesde=((grado-1)/2)+1;
     if (i == -1)
     {
-        if(x->data[separarDesde] )
         mid = x->data[separarDesde];
         x->data[separarDesde] = 0;
         x->n--;
