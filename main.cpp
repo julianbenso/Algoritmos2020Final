@@ -1,128 +1,26 @@
-
+#pragma once
 #include<stdio.h>
 #include<iostream>
+#include <iomanip>
+#include <vector>
+#include "Test.h"
 
 using namespace std;
-int grado=4;
+int grado=6;
 int cantClaves= grado-1;
 
-
-namespace listaPropia {
-
-    using namespace std;
-
-    class Node
-    {
-    public:
-        int data;
-        Node *next;
-    };
-
-    class List
-    {
-        Node *head;
-        Node *tail;
-        Node *temp;
-        bool isEmpty()
-        {
-            return head == NULL;
-        }
-    public:
-        List()
-        {
-            head = NULL;
-            tail = NULL;
-        }
-
-        void insert(int x)
-        {
-            temp = new Node;
-            temp->data = x;
-            if(isEmpty())
-            {
-                temp->next = NULL;
-                tail = temp;
-            }
-            else
-                temp->next = head;
-            head = temp;
-        }
-
-        void insertAtEnd(int x)
-        {
-            temp = new Node;
-            temp->data = x;
-            temp->next = NULL;
-            if(isEmpty())
-            {
-                head = temp;
-                tail = temp;
-            }
-            else
-            {
-                tail->next = temp;
-                tail = temp;
-            }
-        }
-
-        void remove(int x)
-        {
-            temp = head;
-            Node *prev;
-            while(temp->next != NULL && temp->data != x)
-            {
-                prev = temp;
-                temp = temp->next;
-            }
-            if(temp->data == x)
-            {
-                prev->next = temp->next;
-                delete temp;
-            }
-            else if(temp->next == NULL)
-            {
-                cout << "Error: Number Not found..." << endl;
-            }
-        }
-
-        void find(int x)
-        {
-            int i;
-            for(i=1, temp = head;temp->next != NULL && temp->data != x;temp = temp->next, i++);
-            if(temp->data == x)
-            {
-                cout << "Found at position:" << i << endl;
-            }
-            else if(temp->next == NULL)
-            {
-                cout << "Error: Number Not found..." << endl;
-            }
-        }
-
-        void display()
-        {
-            if(!isEmpty())
-            {
-                for(temp = head; temp != NULL; temp=temp->next)
-                    cout << temp->data << " ";
-                cout << endl;
-            }
-            else
-            {
-                cout << "List is Empty!" << endl;
-            }
-        }
-    };
-}
 struct BpTreeNode
 {
-    int *data;
+    int *data; // NO SE PUEDEN INSERTAR CEROS 0, no se va a imprimir
     BpTreeNode **child_ptr;
     bool leaf;
     int n;//cantidad de lugares ocupados en el nodo
 }
 
 *root = nullptr, *node = nullptr, *nodoRoot = nullptr;
+
+int getChildCount(BpTreeNode *pNode);
+
 BpTreeNode * init()
 {
     int numHijos = grado;
@@ -137,27 +35,6 @@ BpTreeNode * init()
     return node;
 }
 
-void print_tree(BpTreeNode* p)
-{
-    int i;
-    cout<<endl;
-    for (i = 0; i < p->n; i++)
-    {
-        cout<<"  ";
-        if (p->leaf == false)
-        {
-            print_tree(p->child_ptr[i]);
-        }
-
-        cout << p->data[i];
-    }
-
-    if (p->leaf == false)
-    {
-        print_tree(p->child_ptr[i]);
-    }
-    cout<<endl;
-}
 
 void sort(int *nodo, int lugaresOcupados)
 {
@@ -456,178 +333,73 @@ void insert(int valIngresado)
     nodoRoot->n++;
 }
 
-int getHeight (BpTreeNode* nodoRoot)
+int getHeight (BpTreeNode* heightRootNode)
 {
-    static int altura=0;
-    if(nodoRoot== nullptr){
-        int alturaTemp = altura;
-        altura = 0;
-        return alturaTemp;
+    int childCount = getChildCount(heightRootNode);
+    if (getChildCount(heightRootNode) == 0) {
+        return 1;
     }
-    else{
-        altura++;
-        BpTreeNode *nodo = nodoRoot->child_ptr[0];
-        getHeight(nodo);
+    int alturas[childCount];
+    for (int i = 0; i<childCount; i++) {
+        alturas[i] =  getHeight(heightRootNode->child_ptr[i]);
     }
+    int maxAltura = 0;
+    for (int i = 0; i<childCount; i++) {
+        if (alturas[i]>maxAltura) maxAltura = alturas[i];
+    }
+    return 1+maxAltura;
 }
 
-void imprimir_arbol(BpTreeNode* nodoRaiz, BpTreeNode *nodoPadre){
-
-    BpTreeNode *nodoAImprimir = nullptr;
-    int nodosEnElNivel = nodoRaiz->n+1;
-    nodoPadre = nodoRaiz;
-
-    if(nodoRaiz == nullptr){
-        return;
-    }
-    else {
-        if(nodoPadre == nullptr){
-            for (int i = 0; i < nodoRaiz->n; i++) {
-                cout << "| " << nodoRaiz->data[i] << " |";
+void traverse(BpTreeNode* printTreeNode, vector<vector<string>>& miLista){
+        static int niveles = 0;
+        miLista[niveles].push_back("|");
+        for (int j = 0; j < printTreeNode->data[j] != 0; ++j) {
+            int dataAInsertar = printTreeNode->data[j];
+            miLista[niveles].push_back(to_string(dataAInsertar));
+        }
+        string hijos = "n="+to_string(printTreeNode->n)+"c=" + to_string(getChildCount(printTreeNode))+"|";
+        miLista[niveles].push_back(hijos);
+        if (getChildCount(printTreeNode) == 0) {
+            return;
+        }
+        else {
+            niveles++;
+            for (int i = 0 ; printTreeNode->child_ptr[i] != nullptr; i++) {
+                traverse(printTreeNode->child_ptr[i], miLista);
             }
-            cout<<endl;
+            niveles--;
         }
-        else if(nodoPadre != nullptr) {
+}
 
-        }
-        cout<<endl;
-        for(int j=0;j < nodosEnElNivel; j++){
-            cout<<"| ";
-            nodoAImprimir = nodoRaiz->child_ptr[j];
-
-            for(int k=0; k < nodoAImprimir->n; k++){
-               cout<< nodoAImprimir->data[k]<<" ";
-            }
-            cout<<"| ";
-        }
-        imprimir_arbol(nodoAImprimir,nodoPadre);
-        /*for(int l=0; l < nodoRaiz->n+1; l++){
-            imprimir_arbol(nodoAImprimir->child_ptr[l]);
-        }*/
+int getChildCount(BpTreeNode *pNode) {
+    int i = 0;
+    while (true) {
+        if (pNode->child_ptr[i] == nullptr) return i;
+        i++;
     }
 }
 
 void printTree(BpTreeNode* printTreeNode) {
-    static int niveles = 0;
-    for (int j = 0; j < printTreeNode->n; ++j) {
-        int dataAInsertar = printTreeNode->data[j];
-        cout << dataAInsertar << " nivel= " << niveles << " | " << endl;
+    vector<vector<string>> miLista;
+    int altura = getHeight(printTreeNode);
+    for (int i = 0; i < altura ; i++) {
+        miLista.push_back(vector<string>());
     }
-    if (printTreeNode->leaf == true) {
-        return;
-    }
-    else {
-        niveles++;
-        for (int i = 0 ; printTreeNode->child_ptr[i] != nullptr; i++) {
-            printTree(printTreeNode->child_ptr[i]);
+    traverse(printTreeNode, miLista);
+
+    for (int i = 0; i < miLista.size(); i++) {
+        for (int j = 0; j < miLista[i].size(); j++) {
+            cout << miLista[i][j]<<" ";
         }
-        niveles--;
+        cout << endl;
     }
 }
 
+
 int main()
 {
-    /************************************PRUEBAS**************************************************/
-    cout << "PROBAMOS LA FUNCION PRINT_TREE"<<endl<<"Haremos el siguiente BpTree hardcodeado:" << endl<<endl;
-    cout << "| 40 |" << endl<<endl;
-    cout << "| 20 30 | | 50  60 |" << endl<<endl;
-    cout << "| 10 15 | | 20 25 | | 30 35 | | 40 45 | | 50 55 | | 60 65 |" << endl;
-    cout<<"grado: "<<grado<<endl;
 
-    BpTreeNode *pruebaNodoHoja1;
-    pruebaNodoHoja1=init();
-    pruebaNodoHoja1->data[0]=10;
-    pruebaNodoHoja1->data[1]=15;
-    pruebaNodoHoja1->n= 2;
-    for(int i=0;i<cantClaves;i++){pruebaNodoHoja1->child_ptr[i]= nullptr;}
-    pruebaNodoHoja1->leaf= true;
-
-    BpTreeNode *pruebaNodoHoja2;
-    pruebaNodoHoja2=init();
-    pruebaNodoHoja2->data[0]= 20;
-    pruebaNodoHoja2->data[1]= 25;
-    pruebaNodoHoja2->n= 2;
-    for(int i=0;i<cantClaves;i++){pruebaNodoHoja2->child_ptr[i]= nullptr;}
-    pruebaNodoHoja2->leaf= true;
-
-    BpTreeNode *pruebaNodoHoja3;
-    pruebaNodoHoja3=init();
-    pruebaNodoHoja3->data[0]= 30;
-    pruebaNodoHoja3->data[1]= 35;
-    pruebaNodoHoja3->n= 2;
-    for(int i=0;i<cantClaves;i++){pruebaNodoHoja3->child_ptr[i]= nullptr;}
-    pruebaNodoHoja3->leaf= true;
-
-    BpTreeNode *pruebaNodoHoja4;
-    pruebaNodoHoja4=init();
-    pruebaNodoHoja4->data[0]= 40;
-    pruebaNodoHoja4->data[1]= 45;
-    pruebaNodoHoja4->n= 2;
-    for(int i=0;i<cantClaves;i++){pruebaNodoHoja4->child_ptr[i]= nullptr;}
-    pruebaNodoHoja4->leaf= true;
-
-    BpTreeNode *pruebaNodoHoja5;
-    pruebaNodoHoja5=init();
-    pruebaNodoHoja5->data[0]= 50;
-    pruebaNodoHoja5->data[1]= 55;
-    pruebaNodoHoja5->n= 2;
-    for(int i=0;i<cantClaves;i++){pruebaNodoHoja5->child_ptr[i]= nullptr;}
-    pruebaNodoHoja5->leaf= true;
-
-    BpTreeNode *pruebaNodoHoja6;
-    pruebaNodoHoja6=init();
-    pruebaNodoHoja6->data[0]= 60;
-    pruebaNodoHoja6->data[1]= 65;
-    pruebaNodoHoja6->n= 2;
-    for(int i=0;i<cantClaves;i++){pruebaNodoHoja6->child_ptr[i]= nullptr;}
-    pruebaNodoHoja6->leaf= true;
-
-    BpTreeNode *pruebaNodoRama1;
-    pruebaNodoRama1=init();
-    pruebaNodoRama1->data[0]= 20;
-    pruebaNodoRama1->data[1]= 30;
-    pruebaNodoRama1->n= 2;
-    pruebaNodoRama1->child_ptr[0]= pruebaNodoHoja1;
-    pruebaNodoRama1->child_ptr[1]= pruebaNodoHoja2;
-    pruebaNodoRama1->child_ptr[2]= pruebaNodoHoja3;
-    pruebaNodoRama1->child_ptr[3]= nullptr;
-    pruebaNodoRama1->leaf= false;
-
-    BpTreeNode *pruebaNodoRama2;
-    pruebaNodoRama2=init();
-    pruebaNodoRama2->data[0]= 50;
-    pruebaNodoRama2->data[1]= 60;
-    pruebaNodoRama2->n= 2;
-    pruebaNodoRama2->child_ptr[0]= pruebaNodoHoja4;
-    pruebaNodoRama2->child_ptr[1]= pruebaNodoHoja5;
-    pruebaNodoRama2->child_ptr[2]= pruebaNodoHoja6;
-    pruebaNodoRama2->child_ptr[3]= nullptr;
-    pruebaNodoRama2->leaf= false;
-
-    BpTreeNode *pruebaNodoRoot;
-    pruebaNodoRoot=init();
-    pruebaNodoRoot->data[0]= 40;
-    pruebaNodoRoot->n= 1;
-    pruebaNodoRoot->child_ptr[0]= pruebaNodoRama1;
-    pruebaNodoRoot->child_ptr[1]= pruebaNodoRama2;
-    pruebaNodoRoot->child_ptr[2]= nullptr;
-    pruebaNodoRoot->child_ptr[3]= nullptr;
-    pruebaNodoRoot->leaf= false;
-
-    cout<<"\n----------------------Arbol----------------------\n";
-    //imprimir_arbol(pruebaNodoRoot, nullptr);
-    printTree(pruebaNodoRoot);
-
-
-    cout<<"\n----------------------ALTURA DEL ARBOL ----------------------\n";
-    cout << "Altura esperada: 3" << endl;
-    cout << "Altura obtenida: " << getHeight(pruebaNodoRoot) << endl;
-
-    /************************************PRUEBAS**************************************************/
-
-
-
-    /*cout<<"cantidad de claves: "<<cantClaves<<endl;
+    cout<<"cantidad de claves: "<<cantClaves<<endl;
     int cantidadElementos, ValorIngresado;
     cout<<"Ingresar cantidad de elementos a insertar: ";
     cin>>cantidadElementos;
@@ -637,7 +409,8 @@ int main()
         cin >> ValorIngresado;
         insert(ValorIngresado);
     }
-    cout << "Arbol trasversal:";
-    print_tree(root);*/
+    cout << "Arbol trasversal:"<<endl;
+    printTree(root);
+
     //getch();
 }
