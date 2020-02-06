@@ -5,12 +5,12 @@
 #ifndef FINAL2_TEST_H
 #define FINAL2_TEST_H
 
+#include "BtreeP.h"
+
+
 
 class Test {
 
-//    BpTreeNode* getArbolAltura3Grado3() {
-//
-//    }
 
 };
 

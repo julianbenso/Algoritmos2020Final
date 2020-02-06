@@ -14,9 +14,12 @@ int main()
     cout << "Ingresar el grado (3,4,5,6): ";
     cin >> grado;
     BtreeP* arbol = new BtreeP(grado);
-    int cantidadElementos, ValorIngresado;
+    arbol->splitChildTest();
+
+    /*int cantidadElementos, ValorIngresado;
     cout<<"Ingresar cantidad de elementos a insertar: ";
     cin>>cantidadElementos;
+
     for(int i = 0; i < cantidadElementos; i++)
     {
         cout << "Ingresar valor: ";
@@ -24,7 +27,7 @@ int main()
         arbol->insert(ValorIngresado);
     }
     cout << "Arbol trasversal:"<<endl;
-    arbol->printTree();
+    arbol->printTree();*/
 
     //getch();
 }
