@@ -42,12 +42,13 @@ public:
     void printTree() {
         _printTree(root);
     }
-    void splitChildTest() {
+    void test_getPadre() {
+        cout << "Arbol de prueba de grado 4, setear el grado en ese valor o valor mayor\n";
         cout << "PROBAMOS LA FUNCION PRINT_TREE"<<endl<<"Haremos el siguiente BpTree hardcodeado:" << endl<<endl;
         cout << "| 40 |" << endl<<endl;
         cout << "| 20 30 | | 50  60 |" << endl<<endl;
         cout << "| 10 15 | | 20 25 | | 30 35 | | 40 45 | | 50 55 | | 60 65 |" << endl;
-        cout<<"grado: "<<grado<<endl;
+        cout<<"grado escogido: "<<grado<<endl;
 
         BpTreeNode *pruebaNodoHoja1;
         pruebaNodoHoja1=crearNodoVacio();
@@ -129,12 +130,8 @@ public:
         pruebaNodoRoot->child_ptr[3]= nullptr;
         pruebaNodoRoot->leaf= false;
 
-        cout<<"\n----------------------Arbol----------------------\n";
-        //imprimir_arbolBenso(pruebaNodoRoot, nullptr);
+        cout<<"\n----------------------ARBOL----------------------\n";
         _printTree(pruebaNodoRoot);
-        //printTree(pruebaNodoRoot);
-        //print_tree(pruebaNodoRoot);
-
 
         cout<<"\n----------------------ALTURA DEL ARBOL ----------------------\n";
         cout << "Altura esperada: 3" << endl;
@@ -143,35 +140,28 @@ public:
         cout << "---------- Funcion getPadre ----------" <<endl;
 
         BpTreeNode *resultadoBusqueda1 = getPadre(pruebaNodoRoot, pruebaNodoHoja5,false);
-
         cout << "Resultado esperado: "  << endl;
         pruebaNodoRama2->print();
-        cout << "Resultado obtenid0: " << endl;
-        if (resultadoBusqueda1 == nullptr) cout<<"No se encontro nodo hijo";
+        cout << "Resultado obtenido: " << endl;
+        if (resultadoBusqueda1 == nullptr) cout<<"No se encontro nodo hijo\n";
         else resultadoBusqueda1->print();
 
         BpTreeNode *resultadoBusqueda2 = getPadre(pruebaNodoRoot, pruebaNodoHoja2,false);
-
-        cout << "Resultado esperado: "  << endl;
+        cout << "\nResultado esperado: "  << endl;
         pruebaNodoRama1->print();
-        cout << "Resultado obtenid0: " << endl;
-
-        if (resultadoBusqueda2 == nullptr) cout<<"No se encontro nodo hijo";
+        cout << "Resultado obtenido: " << endl;
+        if (resultadoBusqueda2 == nullptr) cout<<"No se encontro nodo hijo\n";
         else resultadoBusqueda2->print();
 
-
-
         BpTreeNode *resultadoBusqueda3 = getPadre(pruebaNodoRoot, pruebaNodoHoja4,false);
-        cout << "Resultado esperado: "  << endl;
+        cout << "\nResultado esperado: "  << endl;
         pruebaNodoRama2->print();
-        cout << "Resultado obtenid0: " << endl;
-        if (resultadoBusqueda3 == nullptr) cout<<"No se encontro nodo hijo";
+        cout << "Resultado obtenido: " << endl;
+        if (resultadoBusqueda3 == nullptr) cout<<"No se encontro nodo hijo\n";
         else resultadoBusqueda3->print();
-
 
         /************************************PRUEBAS**************************************************/
     }
-
 
 
 private:
@@ -394,9 +384,11 @@ private:
         int cantHijos = getChildCount(nodoRoot);
         static BpTreeNode* nodoEncontrado;
         if (recursiveCall == false) nodoEncontrado = nullptr;
-        for (int i = 0; i< cantHijos; i++) {
-            if (nodoRoot->child_ptr[i] == nodoABuscar) nodoEncontrado = nodoRoot;
-            else getPadre(nodoRoot->child_ptr[i],nodoABuscar,true);
+        if(nodoEncontrado == nullptr) {
+            for (int i = 0; i < cantHijos; i++) {
+                if (nodoRoot->child_ptr[i] == nodoABuscar) nodoEncontrado = nodoRoot;
+                else getPadre(nodoRoot->child_ptr[i], nodoABuscar, true);
+            }
         }
         return nodoEncontrado;
     }

@@ -11,10 +11,12 @@ using namespace std;
 int main()
 {
     int grado;
-    cout << "Ingresar el grado (3,4,5,6): ";
+    cout<<"Grados de variable admitidos: 3, 4, 5 y 6\n";
+    cout << "Indicar el grado de variable: ";
     cin >> grado;
+    cout<<" ";
     BtreeP* arbol = new BtreeP(grado);
-    arbol->splitChildTest();
+    arbol->test_getPadre();
 
     /*int cantidadElementos, ValorIngresado;
     cout<<"Ingresar cantidad de elementos a insertar: ";
