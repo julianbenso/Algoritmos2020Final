@@ -142,7 +142,7 @@ public:
 
         cout << "---------- Funcion getPadre ----------" <<endl;
 
-        BpTreeNode *resultadoBusqueda1 = getPadre(pruebaNodoRoot, pruebaNodoHoja5);
+        BpTreeNode *resultadoBusqueda1 = getPadre(pruebaNodoRoot, pruebaNodoHoja5,false);
 
         cout << "Resultado esperado: "  << endl;
         pruebaNodoRama2->print();
@@ -150,13 +150,24 @@ public:
         if (resultadoBusqueda1 == nullptr) cout<<"No se encontro nodo hijo";
         else resultadoBusqueda1->print();
 
-        BpTreeNode *resultadoBusqueda2 = getPadre(pruebaNodoRoot, pruebaNodoHoja2);
+        BpTreeNode *resultadoBusqueda2 = getPadre(pruebaNodoRoot, pruebaNodoHoja2,false);
 
         cout << "Resultado esperado: "  << endl;
         pruebaNodoRama1->print();
         cout << "Resultado obtenid0: " << endl;
+
         if (resultadoBusqueda2 == nullptr) cout<<"No se encontro nodo hijo";
         else resultadoBusqueda2->print();
+
+
+
+        BpTreeNode *resultadoBusqueda3 = getPadre(pruebaNodoRoot, pruebaNodoHoja4,false);
+        cout << "Resultado esperado: "  << endl;
+        pruebaNodoRama2->print();
+        cout << "Resultado obtenid0: " << endl;
+        if (resultadoBusqueda3 == nullptr) cout<<"No se encontro nodo hijo";
+        else resultadoBusqueda3->print();
+
 
         /************************************PRUEBAS**************************************************/
     }
@@ -379,12 +390,13 @@ private:
 
     }
 
-    BpTreeNode* getPadre(BpTreeNode* nodoRoot, BpTreeNode* nodoABuscar) {
+    BpTreeNode* getPadre(BpTreeNode* nodoRoot, BpTreeNode* nodoABuscar, bool recursiveCall) {
         int cantHijos = getChildCount(nodoRoot);
-        static BpTreeNode* nodoEncontrado = nullptr;
+        static BpTreeNode* nodoEncontrado;
+        if (recursiveCall == false) nodoEncontrado = nullptr;
         for (int i = 0; i< cantHijos; i++) {
             if (nodoRoot->child_ptr[i] == nodoABuscar) nodoEncontrado = nodoRoot;
-            else getPadre(nodoRoot->child_ptr[i],nodoABuscar);
+            else getPadre(nodoRoot->child_ptr[i],nodoABuscar,true);
         }
         return nodoEncontrado;
     }
