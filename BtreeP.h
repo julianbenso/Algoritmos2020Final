@@ -13,6 +13,7 @@ using namespace std;
 
 class BtreeP {
 public:
+
     BtreeP(int grado)  {
         this->grado = grado;
         this->cantClaves = grado - 1;
@@ -35,6 +36,7 @@ public:
     int getHeight() {
         return _getHeight(root);
     }
+
     void insert(int numeroAInsertar) {
         _insert(numeroAInsertar,root);
     }
@@ -42,11 +44,12 @@ public:
     void printTree() {
         _printTree(root);
     }
+
     void test_getPadre() {
-        cout << "Arbol de prueba de grado 4, setear el grado en ese valor o valor mayor\n";
-        cout << "PROBAMOS LA FUNCION PRINT_TREE"<<endl<<"Haremos el siguiente BpTree hardcodeado:" << endl<<endl;
-        cout << "| 40 |" << endl<<endl;
-        cout << "| 20 30 | | 50  60 |" << endl<<endl;
+        cout << "\nArbol de prueba de grado 4, setear el grado en ese valor o valor mayor\n";
+        cout << "\nPROBAMOS LA FUNCION PRINT_TREE"<<endl<<"Haremos el siguiente BpTree hardcodeado:" << endl<<endl;
+        cout << "| 40 |" << endl;
+        cout << "| 20 30 | | 50  60 |" << endl;
         cout << "| 10 15 | | 20 25 | | 30 35 | | 40 45 | | 50 55 | | 60 65 |" << endl;
         cout<<"grado escogido: "<<grado<<endl;
 
@@ -162,9 +165,65 @@ public:
 
         /************************************PRUEBAS**************************************************/
     }
+    void test_valorMedioPerteneceANodo(){
+        cout<<"\nIngresar grado 6\n";
+
+        int valorMedio1=22;
+        //Ingreso valor 22;
+        BpTreeNode *pruebaNodo1;
+        pruebaNodo1=crearNodoVacio();
+        pruebaNodo1->data[0]=10;
+        pruebaNodo1->data[1]=15;
+        pruebaNodo1->data[2]=20;
+        pruebaNodo1->data[3]=25;
+        pruebaNodo1->n= 4;
+        for(int i=0;i<cantClaves;i++){pruebaNodo1->child_ptr[i]= nullptr;}
+        pruebaNodo1->leaf= true;
+
+        int valorMedio2=5;
+        //Ingreso valor 2
+        BpTreeNode *pruebaNodo2;
+        pruebaNodo2=crearNodoVacio();
+        pruebaNodo2->data[0]=1;
+        pruebaNodo2->data[1]=3;
+        pruebaNodo2->data[2]=5;
+        pruebaNodo2->data[3]=7;
+        pruebaNodo2->data[4]=9;
+        pruebaNodo2->n= 5;
+        for(int i=0;i<cantClaves;i++){pruebaNodo2->child_ptr[i]= nullptr;}
+        pruebaNodo2->leaf= true;
+
+        cout<<"****************************************\n";
+        cout<<"Nodo: ";
+        _printTree(pruebaNodo1);
+        cout << "Valor Ingresado: 22";
+        cout<<"\n----------------------------\n";
+        cout<<"bool esperado: false\n";
+        cout<<"bool obtenido: ";
+        if(valorMedioPerteneceANodo(pruebaNodo1, valorMedio1) == true){
+            cout<<"true\n";
+        }
+        else cout<<"false\n";
+        cout<<"****************************************\n";
+
+        cout<<"****************************************\n";
+        cout<<"Nodo: ";
+        _printTree(pruebaNodo2);
+        cout << "Valor Ingresado: 2";
+        cout<<"\n----------------------------\n";
+        cout<<"bool esperado: true\n";
+        cout<<"bool obtenido: ";
+        if(valorMedioPerteneceANodo(pruebaNodo2, valorMedio2) == true){
+            cout<<"true\n";
+        }
+        else cout<<"false\n";
+        cout<<"****************************************\n";
+
+    }
 
 
 private:
+
     BpTreeNode* root;
     int cantClaves, grado;
     BpTreeNode * crearNodoVacio()
@@ -253,6 +312,33 @@ private:
             cout << endl;
         }
     }
+    BpTreeNode* getPadre(BpTreeNode* nodoRoot, BpTreeNode* nodoABuscar, bool recursiveCall) {
+        int cantHijos = getChildCount(nodoRoot);
+        static BpTreeNode* nodoEncontrado;
+        if (recursiveCall == false) nodoEncontrado = nullptr;
+        if(nodoEncontrado == nullptr) {
+            for (int i = 0; i < cantHijos; i++) {
+                if (nodoRoot->child_ptr[i] == nodoABuscar) nodoEncontrado = nodoRoot;
+                else getPadre(nodoRoot->child_ptr[i], nodoABuscar, true);
+            }
+        }
+        return nodoEncontrado;
+    }
+
+
+
+    bool perteneceAlNodo(int valorAIngresar, BpTreeNode* nodo) {
+
+    }
+
+    int getPosicionDeClaveAllevarAlPadre(BpTreeNode* nodo) {
+
+    }
+
+    void organizarPunterosHijosDePadre(BpTreeNode* padre, vector<BpTreeNode*> hijos) {
+
+    }
+
 
 
     int split_child(BpTreeNode *nodoOriginal, int i, int valIngresado)
@@ -368,38 +454,23 @@ private:
 
     }
 
-    bool perteneceAlNodo(int valorAIngresar, BpTreeNode* nodo) {
-
-    }
-
-    int getPosicionDeClaveAllevarAlPadre(BpTreeNode* nodo) {
-
-    }
-
-    void organizarPunterosHijosDePadre(BpTreeNode* padre, vector<BpTreeNode*> hijos) {
-
-    }
-
-    BpTreeNode* getPadre(BpTreeNode* nodoRoot, BpTreeNode* nodoABuscar, bool recursiveCall) {
-        int cantHijos = getChildCount(nodoRoot);
-        static BpTreeNode* nodoEncontrado;
-        if (recursiveCall == false) nodoEncontrado = nullptr;
-        if(nodoEncontrado == nullptr) {
-            for (int i = 0; i < cantHijos; i++) {
-                if (nodoRoot->child_ptr[i] == nodoABuscar) nodoEncontrado = nodoRoot;
-                else getPadre(nodoRoot->child_ptr[i], nodoABuscar, true);
+    bool valorMedioPerteneceANodo(BpTreeNode* nodo, int valorMedio){
+        for (int i = 0; i < cantClaves ; ++i) {
+            if(nodo->data[i] == valorMedio){
+                return true;
             }
         }
-        return nodoEncontrado;
+        return false;
     }
 
 
-    int search_middle(BpTreeNode *nodo, int valIngresado, int *midpX, int *posMedio, int *separar){
+
+    int search_middle(BpTreeNode *nodo, int valIngresado, int *ValMedioPerteneceAnodo, int *posMedio, int *separar){
         // la variable "valIngresado" es el valor a ingresar en el nodo, que desencadena la separacion del nodo.
-        /* la variable "midpX", indica a la funcion split_child si el valor medio estaba en nodo , o si es el
+        /* la variable "ValMedioPerteneceAnodo", indica a la funcion split_child si el valor medio estaba en nodo , o si es el
          valor nuevo ingresado es el valor medio.
-         midpX= 1 indica que el elemento medio pertenece a nodo
-         midpX= -1 indica que el elemento medio NO pertenece a nodo
+         ValMedioPerteneceAnodo= 1 indica que el elemento medio pertenece a nodo
+         ValMedioPerteneceAnodo= -1 indica que el elemento medio NO pertenece a nodo
          */
         //la variable "posMedio" indica la posicion del valor medio en caso de este pertenecer a nodo.
 
@@ -408,19 +479,19 @@ private:
             if (valIngresado < nodo->data[0]){
                 middle = nodo->data[0];
                 *posMedio=0;
-                *midpX=1;
+                //*ValMedioPerteneceAnodo=1;
                 return middle;
             }
             if(nodo->data[0] < valIngresado && valIngresado < nodo->data[1]){
                 middle = valIngresado;
                 *separar= 0;
-                *midpX=-1;
+                //*ValMedioPerteneceAnodo=-1;
                 return middle;
             }
             if(nodo->data[1] < valIngresado){
                 middle = nodo->data[1];
                 *posMedio=1;
-                *midpX=1;
+                //*ValMedioPerteneceAnodo=1;
                 return middle;
             }
         }
@@ -428,19 +499,19 @@ private:
             if(valIngresado < nodo->data[0] || valIngresado < nodo->data[1]){
                 middle = nodo->data[1];
                 *posMedio=1;
-                *midpX=1;
+                //*ValMedioPerteneceAnodo=1;
                 return middle;
             }
             if(nodo->data[1] < valIngresado && valIngresado < nodo->data[2]){
                 middle = valIngresado;
                 *separar= 1;
-                *midpX=-1;
+                //*ValMedioPerteneceAnodo=-1;
                 return middle;
             }
             if(nodo->data[2] < valIngresado){
                 middle = nodo->data[2];
                 *posMedio=2;
-                *midpX=1;
+                //*ValMedioPerteneceAnodo=1;
                 return middle;
             }
         }
@@ -448,19 +519,19 @@ private:
             if(valIngresado < nodo->data[0] || valIngresado < nodo->data[1]){
                 middle = nodo->data[1];
                 *posMedio=1;
-                *midpX=1;
+                //*ValMedioPerteneceAnodo=1;
                 return middle;
             }
             if(nodo->data[1] < valIngresado && valIngresado < nodo->data[2]){
                 middle = valIngresado;
                 *separar= 1;
-                *midpX=-1;
+                //*ValMedioPerteneceAnodo=-1;
                 return middle;
             }
             if(nodo->data[2] < valIngresado || nodo->data[3] < valIngresado) {
                 middle = nodo->data[2];
                 *posMedio=2;
-                *midpX=1;
+                //*ValMedioPerteneceAnodo=1;
                 return middle;
             }
         }
@@ -468,19 +539,19 @@ private:
             if(valIngresado < nodo->data[0] || valIngresado < nodo->data[1] || valIngresado < nodo->data[2]){
                 middle = nodo->data[2];
                 *posMedio=2;
-                *midpX=1;
+                //*ValMedioPerteneceAnodo=1;
                 return middle;
             }
             if(nodo->data[2] < valIngresado && valIngresado < nodo->data[3]){
                 middle = valIngresado;
                 *separar= 3;
-                *midpX=-1;
+                //*ValMedioPerteneceAnodo=-1;
                 return middle;
             }
             if(nodo->data[3] < valIngresado || nodo->data[4] < valIngresado) {
                 middle = nodo->data[3];
                 *posMedio=3;
-                *midpX=1;
+                //*ValMedioPerteneceAnodo=1;
                 return middle;
             }
         }

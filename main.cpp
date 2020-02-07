@@ -16,7 +16,8 @@ int main()
     cin >> grado;
     cout<<" ";
     BtreeP* arbol = new BtreeP(grado);
-    arbol->test_getPadre();
+    //arbol->test_getPadre();
+    arbol->test_valorMedioPerteneceANodo();
 
     /*int cantidadElementos, ValorIngresado;
     cout<<"Ingresar cantidad de elementos a insertar: ";
