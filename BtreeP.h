@@ -18,7 +18,6 @@ public:
         this->grado = grado;
         this->cantClaves = grado - 1;
     }
-
     struct BpTreeNode
     {
         int *data; // NO SE PUEDEN INSERTAR CEROS 0, no se va a imprimir
@@ -36,15 +35,12 @@ public:
     int getHeight() {
         return _getHeight(root);
     }
-
     void insert(int numeroAInsertar) {
         _insert(numeroAInsertar,root);
     }
-
     void printTree() {
         _printTree(root);
     }
-
     void test_getPadre() {
         cout << "\nArbol de prueba de grado 4, setear el grado en ese valor o valor mayor\n";
         cout << "\nPROBAMOS LA FUNCION PRINT_TREE"<<endl<<"Haremos el siguiente BpTree hardcodeado:" << endl<<endl;
@@ -195,9 +191,11 @@ public:
 
         cout<<"****************************************\n";
         cout<<"Nodo: ";
-        _printTree(pruebaNodo1);
-        cout << "Valor Ingresado: 22";
+        pruebaNodo1->print();
+        cout << "Valor Insertado: 22";
+        cout << "\nEn este caso el valor Medio es el: 22";
         cout<<"\n----------------------------\n";
+        cout << "El Valor Medio pertenece al nodo?\n";
         cout<<"bool esperado: false\n";
         cout<<"bool obtenido: ";
         if(valorMedioPerteneceANodo(pruebaNodo1, valorMedio1) == true){
@@ -208,9 +206,11 @@ public:
 
         cout<<"****************************************\n";
         cout<<"Nodo: ";
-        _printTree(pruebaNodo2);
-        cout << "Valor Ingresado: 2";
+        pruebaNodo2->print();
+        cout << "Valor Insertado: 2";
+        cout << "\nEn este caso el valor Medio es el: 5";
         cout<<"\n----------------------------\n";
+        cout << "El Valor Medio pertenece al nodo?\n";
         cout<<"bool esperado: true\n";
         cout<<"bool obtenido: ";
         if(valorMedioPerteneceANodo(pruebaNodo2, valorMedio2) == true){
@@ -220,12 +220,182 @@ public:
         cout<<"****************************************\n";
 
     }
+    void test_posicionDelElementoMedio(){
 
+        int valorInsertado1=2; //Inserto el valor 24
+        BpTreeNode *pruebaNodo1;
+        pruebaNodo1=crearNodoVacio();
+        pruebaNodo1->data[0]=3;
+        pruebaNodo1->data[1]=5;
+        pruebaNodo1->data[2]=12;
+        pruebaNodo1->data[3]=25;
+        pruebaNodo1->n= 4;
+        for(int i=0;i<cantClaves;i++){pruebaNodo1->child_ptr[i]= nullptr;}
+        pruebaNodo1->leaf= true;
+
+        int valorInsertado2=20; //Inserto el valor 20
+        BpTreeNode *pruebaNodo2;
+        pruebaNodo2=crearNodoVacio();
+        pruebaNodo2->data[0]=12;
+        pruebaNodo2->data[1]=18;
+        pruebaNodo2->data[2]=35;
+        pruebaNodo2->data[3]=68;
+        pruebaNodo2->n= 4;
+        for(int i=0;i<cantClaves;i++){pruebaNodo2->child_ptr[i]= nullptr;}
+        pruebaNodo2->leaf= true;
+
+        cout<< "\n--------------TEST POS.ELEMENTO MEDIO--------------\n\n";
+        cout<<"Insertar grado 5, para el correcto funcionamiento.";
+        cout<<"\n****************************************\n";
+        cout<< "Nodo: ";
+        pruebaNodo1->print();
+        cout<< "\nValor insertado: 2\n";
+        cout<< "En este caso el Valor Medio es: 5";
+        cout<<"\n----------------------------\n";
+        cout<<"posicion esperada del elemento Medio: 1\n";
+        cout<<"posicion obtenida del elemento Medio: ";
+        cout<<posicionDelElementoMedio(pruebaNodo1,valorInsertado1);
+        cout<<"\n****************************************\n";
+
+        cout<<"\n****************************************\n";
+        cout<< "Nodo: ";
+        pruebaNodo2->print();
+        cout<< "\nValor insertado: 20\n";
+        cout<< "En este caso el Valor Medio es: 20\nEl elemento medio no pertence a Nodo";
+        cout<<"\n----------------------------\n";
+        cout<<"posicion esperada del elemento Medio: 2\n";
+        cout<<"posicion obtenida del elemento Medio: ";
+        cout<<posicionDelElementoMedio(pruebaNodo2,valorInsertado2);
+        cout<<"\n****************************************\n";
+
+
+
+    }
+    void test_buscarMedio(){
+        cout<<"--------------TEST BUSCAR MEDIO--------------\n";
+
+        if (grado==6){
+            int valorInsertado1= 13; //Inserto el valor 13
+            BpTreeNode *pruebaNodo1;
+            pruebaNodo1=crearNodoVacio();
+            pruebaNodo1->data[0] = 3;
+            pruebaNodo1->data[1] = 5;
+            pruebaNodo1->data[2] = 12;
+            pruebaNodo1->data[3] = 77;
+            pruebaNodo1->data[4] = 25;
+            pruebaNodo1->n = 5;
+            for(int i=0;i<cantClaves;i++){pruebaNodo1->child_ptr[i]= nullptr;}
+            pruebaNodo1->leaf= true;
+
+            int valorInsertado4= 7; //Inserto el valor 7
+            BpTreeNode *pruebaNodo4;
+            pruebaNodo4=crearNodoVacio();
+            pruebaNodo4->data[0] = 3;
+            pruebaNodo4->data[1] = 8;
+            pruebaNodo4->data[2] = 2;
+            pruebaNodo4->data[3] = 4;
+            pruebaNodo4->data[4] = 1;
+            pruebaNodo4->n = 5;
+            for(int i=0;i<cantClaves;i++){pruebaNodo4->child_ptr[i]= nullptr;}
+            pruebaNodo4->leaf= true;
+
+            cout<<"****************************************\n";
+            cout<< "Nodo Original: ";
+            pruebaNodo1->print();
+            cout<<"Se inserta el valor: 13\n";
+            cout<<"---------------------------\n";
+            cout<<"nodo esperado: | 3 5 12 13 25 77 |\n";
+            cout<<"nodo obtenido: ";
+            cout<<buscarMedio(pruebaNodo1, valorInsertado1);
+            cout<<"\nValor medio esperado: 13\n";
+            cout<<"****************************************\n";
+
+            cout<<"****************************************\n";
+            cout<< "Nodo Original: ";
+            pruebaNodo4->print();
+            cout<<"Se inserta el valor: 7\n";
+            cout<<"---------------------------\n";
+            cout<<"nodo esperado: | 1 2 3 4 7 8 |\n";
+            cout<<"nodo obtenido: ";
+            cout<<buscarMedio(pruebaNodo4, valorInsertado4);
+            cout<<"\nValor medio esperado: 4\n";
+            cout<<"****************************************\n";
+        }
+
+        if (grado==5){
+
+            int valorInsertado2= 65; //Inserto el valor 65
+            BpTreeNode *pruebaNodo2;
+            pruebaNodo2=crearNodoVacio();
+            pruebaNodo2->data[0] = 15;
+            pruebaNodo2->data[1] = 44;
+            pruebaNodo2->data[2] = 12;
+            pruebaNodo2->data[3] = 52;
+            pruebaNodo2->n = 4;
+            for(int i=0;i<cantClaves;i++){pruebaNodo2->child_ptr[i]= nullptr;}
+            pruebaNodo2->leaf= true;
+
+            cout<<"****************************************\n";
+            cout<< "Nodo Original: ";
+            pruebaNodo2->print();
+            cout<<"Se inserta el valor: 65\n";
+            cout<<"---------------------------\n";
+            cout<<"nodo esperado: | 12 15 44 52 65 |\n";
+            cout<<"nodo obtenido: ";
+            cout<<buscarMedio(pruebaNodo2, valorInsertado2);
+            cout<<"\nValor medio esperado: 44\n";
+            cout<<"****************************************\n";
+        }
+        if (grado==4){
+            int valorInsertado3= 22; //Inserto el valor 22
+            BpTreeNode *pruebaNodo3;
+            pruebaNodo3=crearNodoVacio();
+            pruebaNodo3->data[0] = 15;
+            pruebaNodo3->data[1] = 44;
+            pruebaNodo3->data[2] = 12;
+            pruebaNodo3->n = 3;
+            for(int i=0;i<cantClaves;i++){pruebaNodo3->child_ptr[i]= nullptr;}
+            pruebaNodo3->leaf= true;
+
+            cout<<"****************************************\n";
+            cout<< "Nodo Original: ";
+            pruebaNodo3->print();
+            cout<<"Se inserta el valor: 22\n";
+            cout<<"---------------------------\n";
+            cout<<"nodo esperado: | 12 15 22 44 |\n";
+            cout<<"nodo obtenido: ";
+            cout<<buscarMedio(pruebaNodo3, valorInsertado3);
+            cout<<"\nValor medio esperado: 22\n";
+            cout<<"****************************************\n";
+        }
+        if(grado == 3){
+            int valorInsertado3= 61; //Inserto el valor 61
+            BpTreeNode *pruebaNodo3;
+            pruebaNodo3=crearNodoVacio();
+            pruebaNodo3->data[0] = 15;
+            pruebaNodo3->data[1] = 38;
+            pruebaNodo3->n = 2;
+            for(int i=0;i<cantClaves;i++){pruebaNodo3->child_ptr[i]= nullptr;}
+            pruebaNodo3->leaf= true;
+
+            cout<<"****************************************\n";
+            cout<< "Nodo Original: ";
+            pruebaNodo3->print();
+            cout<<"Se inserta el valor: 61\n";
+            cout<<"---------------------------\n";
+            cout<<"nodo esperado: | 15 38 61 |\n";
+            cout<<"nodo obtenido: ";
+            cout<<buscarMedio(pruebaNodo3, valorInsertado3);
+            cout<<"\nValor medio esperado: 38\n";
+            cout<<"****************************************\n";
+        }
+    }
 
 private:
 
     BpTreeNode* root;
     int cantClaves, grado;
+
     BpTreeNode * crearNodoVacio()
     {
         int numHijos = grado;
@@ -251,7 +421,7 @@ private:
         int i, j, temp;
         for (i = 0; i < lugaresOcupados; i++)
         {
-            for (j = i; j <= lugaresOcupados; j++)
+            for (j = i; j < lugaresOcupados; j++)
             {
                 if (nodo[i] > nodo[j]){
                     temp = nodo[i];
@@ -326,20 +496,9 @@ private:
     }
 
 
-
-    bool perteneceAlNodo(int valorAIngresar, BpTreeNode* nodo) {
-
-    }
-
-    int getPosicionDeClaveAllevarAlPadre(BpTreeNode* nodo) {
-
-    }
-
     void organizarPunterosHijosDePadre(BpTreeNode* padre, vector<BpTreeNode*> hijos) {
 
     }
-
-
 
     int split_child(BpTreeNode *nodoOriginal, int i, int valIngresado)
     {
@@ -348,12 +507,12 @@ private:
         int midpX=0;  //parametro numero 3 de search_middle
         int posMedio=0;   //posicion del elemento medio cuando este pertenece al nodoOriginal
         int separar=0;  //para separar desde un cierto elemento cuando el elemento medio no pertenece a nodoOriginal
-        int separarDesde = search_middle(nodoOriginal, valIngresado, &midpX, &posMedio, &separar);
+        int separarDesde = search_middle(nodoOriginal, valIngresado);
 
         if (i == -1) //si hay que separar un nodo, dado que esta lleno y es una hoja, sin padre
         {
-            cout << "\nEl elemento medio es:" << search_middle(nodoOriginal, valIngresado, &midpX, &posMedio, &separar) << endl;
-            mid = search_middle(nodoOriginal, valIngresado, &midpX, &posMedio, &separar);
+            cout << "\nEl elemento medio es:" << search_middle(nodoOriginal, valIngresado) << endl;
+            mid = search_middle(nodoOriginal, valIngresado);
             padre = crearNodoVacio();
             padre->leaf = false;
             hijoMenor = crearNodoVacio();
@@ -463,99 +622,40 @@ private:
         return false;
     }
 
+    int posicionDelElementoMedio(BpTreeNode* nodo, int valorNuevoInsertado){
+        int valorMedio = search_middle(nodo, valorNuevoInsertado);
+        if(valorMedioPerteneceANodo(nodo,valorMedio) == true){
+            for (int i = 0; i < cantClaves ; ++i) {
+                if(nodo->data[i] == valorMedio){
+                    return i;
+                }
+            }
+        }
+        else{
+            for (int i = 0; i < cantClaves ; ++i) {
+                if(valorNuevoInsertado <= nodo->data[i]){
+                    return i;
+                }
+            }
+        }
+    }
 
-
-    int search_middle(BpTreeNode *nodo, int valIngresado, int *ValMedioPerteneceAnodo, int *posMedio, int *separar){
-        // la variable "valIngresado" es el valor a ingresar en el nodo, que desencadena la separacion del nodo.
-        /* la variable "ValMedioPerteneceAnodo", indica a la funcion split_child si el valor medio estaba en nodo , o si es el
-         valor nuevo ingresado es el valor medio.
-         ValMedioPerteneceAnodo= 1 indica que el elemento medio pertenece a nodo
-         ValMedioPerteneceAnodo= -1 indica que el elemento medio NO pertenece a nodo
-         */
-        //la variable "posMedio" indica la posicion del valor medio en caso de este pertenecer a nodo.
-
-        int middle;
-        if (cantClaves==2)/*GRADO 3*/ {
-            if (valIngresado < nodo->data[0]){
-                middle = nodo->data[0];
-                *posMedio=0;
-                //*ValMedioPerteneceAnodo=1;
-                return middle;
-            }
-            if(nodo->data[0] < valIngresado && valIngresado < nodo->data[1]){
-                middle = valIngresado;
-                *separar= 0;
-                //*ValMedioPerteneceAnodo=-1;
-                return middle;
-            }
-            if(nodo->data[1] < valIngresado){
-                middle = nodo->data[1];
-                *posMedio=1;
-                //*ValMedioPerteneceAnodo=1;
-                return middle;
-            }
+    int buscarMedio(BpTreeNode* nodo, int valorNuevoInsertado){
+        int tamanioNodoNuevo = cantClaves + 1;
+        int nodoNuevo[tamanioNodoNuevo];//Este nodo contendra el nodo + valorNuevoInsertado
+        for (int i = 0; i < cantClaves ; ++i) {
+            nodoNuevo[i] = nodo->data[i];
         }
-        else if(cantClaves==3)/*GRADO 4*/{
-            if(valIngresado < nodo->data[0] || valIngresado < nodo->data[1]){
-                middle = nodo->data[1];
-                *posMedio=1;
-                //*ValMedioPerteneceAnodo=1;
-                return middle;
-            }
-            if(nodo->data[1] < valIngresado && valIngresado < nodo->data[2]){
-                middle = valIngresado;
-                *separar= 1;
-                //*ValMedioPerteneceAnodo=-1;
-                return middle;
-            }
-            if(nodo->data[2] < valIngresado){
-                middle = nodo->data[2];
-                *posMedio=2;
-                //*ValMedioPerteneceAnodo=1;
-                return middle;
-            }
+        nodoNuevo[tamanioNodoNuevo-1] = valorNuevoInsertado;
+        sort(nodoNuevo, tamanioNodoNuevo);
+        /*cout <<"|";
+        for (int j = 0; j < cantClaves+1 ; ++j) {
+            cout <<" "<<nodoNuevo[j];
         }
-        else if (cantClaves==4)/*GRADO 5*/{
-            if(valIngresado < nodo->data[0] || valIngresado < nodo->data[1]){
-                middle = nodo->data[1];
-                *posMedio=1;
-                //*ValMedioPerteneceAnodo=1;
-                return middle;
-            }
-            if(nodo->data[1] < valIngresado && valIngresado < nodo->data[2]){
-                middle = valIngresado;
-                *separar= 1;
-                //*ValMedioPerteneceAnodo=-1;
-                return middle;
-            }
-            if(nodo->data[2] < valIngresado || nodo->data[3] < valIngresado) {
-                middle = nodo->data[2];
-                *posMedio=2;
-                //*ValMedioPerteneceAnodo=1;
-                return middle;
-            }
-        }
-        else if (cantClaves==5)/*GRADO 6*/{
-            if(valIngresado < nodo->data[0] || valIngresado < nodo->data[1] || valIngresado < nodo->data[2]){
-                middle = nodo->data[2];
-                *posMedio=2;
-                //*ValMedioPerteneceAnodo=1;
-                return middle;
-            }
-            if(nodo->data[2] < valIngresado && valIngresado < nodo->data[3]){
-                middle = valIngresado;
-                *separar= 3;
-                //*ValMedioPerteneceAnodo=-1;
-                return middle;
-            }
-            if(nodo->data[3] < valIngresado || nodo->data[4] < valIngresado) {
-                middle = nodo->data[3];
-                *posMedio=3;
-                //*ValMedioPerteneceAnodo=1;
-                return middle;
-            }
-        }
-        return 0;
+        cout <<" |\n";*/
+        int valorMedio = (tamanioNodoNuevo)/2;
+        //cout<<"Valor medio obtenido: ";
+        return nodoNuevo[valorMedio];
     }
 
     void _insert(int valIngresado, BpTreeNode* nodoRoot)
@@ -632,8 +732,6 @@ private:
         sort(nodoRoot->data, nodoRoot->n);
         nodoRoot->n++;
     }
-
-
 };
 
 

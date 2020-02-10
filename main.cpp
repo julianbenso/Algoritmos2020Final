@@ -12,12 +12,17 @@ int main()
 {
     int grado;
     cout<<"Grados de variable admitidos: 3, 4, 5 y 6\n";
-    cout << "Indicar el grado de variable: ";
+    cout <<"Indicar el grado de variable: ";
     cin >> grado;
-    cout<<" ";
     BtreeP* arbol = new BtreeP(grado);
+
+    //-----------------TEST-------------------
     //arbol->test_getPadre();
-    arbol->test_valorMedioPerteneceANodo();
+    //arbol->test_valorMedioPerteneceANodo();
+    //arbol->test_posicionDelElementoMedio();
+    //arbol->test_buscarMedio();//para hacer este test correctamente se debe descomentar
+    // los cout en la funcion buscarMedio.
+    //--------------------------------------------
 
     /*int cantidadElementos, ValorIngresado;
     cout<<"Ingresar cantidad de elementos a insertar: ";
