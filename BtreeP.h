@@ -434,6 +434,271 @@ public:
             cout<<"****************************************\n";
         }
     }
+    void test_cantidadDeClavesOcupadas(){
+        cout<< "\n----------TEST POSICIONES DEL NODO OCUPADAS----------\n";
+        cout<< "Test hechos para grado de variable 3 y 6\n\n";
+        if (grado==6) {
+            BpTreeNode *pruebaNodo1;
+            pruebaNodo1 = crearNodoVacio();
+            pruebaNodo1->data[0] = 3;
+            pruebaNodo1->data[1] = 5;
+            pruebaNodo1->data[2] = 12;
+            pruebaNodo1->data[3] = 0;
+            pruebaNodo1->data[4] = 0;
+            pruebaNodo1->n = 3;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodo1->child_ptr[i] = nullptr; }
+            pruebaNodo1->leaf = true;
+
+            BpTreeNode *pruebaNodo2;
+            pruebaNodo2 = crearNodoVacio();
+            pruebaNodo2->data[0] = 3;
+            pruebaNodo2->data[1] = 4;
+            pruebaNodo2->data[2] = 16;
+            pruebaNodo2->data[3] = 88;
+            pruebaNodo2->data[4] = 102;
+            pruebaNodo2->n = 5;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodo2->child_ptr[i] = nullptr; }
+            pruebaNodo2->leaf = true;
+
+            cout<<"****************************************\n";
+            cout<< "Nodo Original: ";
+            pruebaNodo1->print();
+            cout<<"-----------------------------------------\n";
+            cout<<"numero de lugares ocupados esperado: 3\n";
+            cout<<"numero de lugares ocupados obtenido: ";
+            cout<<cantidadDeClavesOcupadas(pruebaNodo1);
+            cout<<"\n****************************************\n";
+
+            cout<<"****************************************\n";
+            cout<< "Nodo Original: ";
+            pruebaNodo2->print();
+            cout<<"-----------------------------------------\n";
+            cout<<"numero de lugares ocupados esperado: 5\n";
+            cout<<"numero de lugares ocupados obtenido: ";
+            cout<<cantidadDeClavesOcupadas(pruebaNodo2);
+            cout<<"\n****************************************\n";
+        }
+
+        if (grado == 3) {
+            BpTreeNode *pruebaNodo1;
+            pruebaNodo1 = crearNodoVacio();
+            pruebaNodo1->data[0] = 3;
+            pruebaNodo1->data[1] = 5;
+            pruebaNodo1->n = 2;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodo1->child_ptr[i] = nullptr; }
+            pruebaNodo1->leaf = true;
+
+            BpTreeNode *pruebaNodo2;
+            pruebaNodo2 = crearNodoVacio();
+            pruebaNodo2->data[0] = 3;
+            pruebaNodo2->data[1] = 0;
+            pruebaNodo2->n = 1;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodo2->child_ptr[i] = nullptr; }
+            pruebaNodo2->leaf = true;
+
+            cout<<"****************************************\n";
+            cout<< "Nodo Original: ";
+            pruebaNodo1->print();
+            cout<<"---------------------------\n";
+            cout<<"numero de lugares ocupados esperado: 2\n";
+            cout<<"numero de lugares ocupados obtenido: ";
+            cout<<cantidadDeClavesOcupadas(pruebaNodo1);
+            cout<<"\n****************************************\n";
+
+            cout<<"****************************************\n";
+            cout<< "Nodo Original: ";
+            pruebaNodo2->print();
+            cout<<"---------------------------\n";
+            cout<<"numero de lugares ocupados esperado: 1\n";
+            cout<<"numero de lugares ocupados obtenido: ";
+            cout<<cantidadDeClavesOcupadas(pruebaNodo2);
+            cout<<"\n****************************************\n";
+        }
+
+    }
+    void test_buscarValor(){
+        cout << "\n-------------TEST BUSCAR VALOR EN ARBOL-------------\n";
+        cout<<"Este test funciona para grado 3";
+
+        if(grado==3) {
+            cout << "\nSe crea el siguiente BpTree hardcodeado:\n";
+            cout << "| 50 |" << endl;
+            cout << "| 30 | | 70 |" << endl;
+            cout << "| 20 | | 40 | | 60 | | 80 |" << endl;
+            cout << "| 10 | | 20 | | 30 | | 40 | | 50 | | 60 | | 70 | | 80  90 |" << endl;
+            cout << "grado: " << grado << endl;
+
+            BpTreeNode *pruebaNodoHoja1;
+            pruebaNodoHoja1 = crearNodoVacio();
+            pruebaNodoHoja1->data[0] = 10;
+            pruebaNodoHoja1->n = 1;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodoHoja1->child_ptr[i] = nullptr; }
+            pruebaNodoHoja1->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja2;
+            pruebaNodoHoja2 = crearNodoVacio();
+            pruebaNodoHoja2->data[0] = 20;
+            pruebaNodoHoja2->n = 1;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodoHoja2->child_ptr[i] = nullptr; }
+            pruebaNodoHoja2->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja3;
+            pruebaNodoHoja3 = crearNodoVacio();
+            pruebaNodoHoja3->data[0] = 30;
+            pruebaNodoHoja3->n = 1;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodoHoja3->child_ptr[i] = nullptr; }
+            pruebaNodoHoja3->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja4;
+            pruebaNodoHoja4 = crearNodoVacio();
+            pruebaNodoHoja4->data[0] = 40;
+            pruebaNodoHoja4->n = 1;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodoHoja4->child_ptr[i] = nullptr; }
+            pruebaNodoHoja4->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja5;
+            pruebaNodoHoja5 = crearNodoVacio();
+            pruebaNodoHoja5->data[0] = 50;
+            pruebaNodoHoja5->n = 1;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodoHoja5->child_ptr[i] = nullptr; }
+            pruebaNodoHoja5->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja6;
+            pruebaNodoHoja6 = crearNodoVacio();
+            pruebaNodoHoja6->data[0] = 60;
+            pruebaNodoHoja6->n = 1;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodoHoja6->child_ptr[i] = nullptr; }
+            pruebaNodoHoja6->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja7;
+            pruebaNodoHoja7 = crearNodoVacio();
+            pruebaNodoHoja7->data[0] = 70;
+            pruebaNodoHoja7->n = 1;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodoHoja7->child_ptr[i] = nullptr; }
+            pruebaNodoHoja7->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja8;
+            pruebaNodoHoja8 = crearNodoVacio();
+            pruebaNodoHoja8->data[0] = 80;
+            pruebaNodoHoja8->data[1] = 90;
+            pruebaNodoHoja8->n = 2;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodoHoja6->child_ptr[i] = nullptr; }
+            pruebaNodoHoja8->leaf = true;
+
+            BpTreeNode *pruebaNodoRama11;
+            pruebaNodoRama11 = crearNodoVacio();
+            pruebaNodoRama11->data[0] = 20;
+            pruebaNodoRama11->n = 1;
+            pruebaNodoRama11->child_ptr[0] = pruebaNodoHoja1;
+            pruebaNodoRama11->child_ptr[1] = pruebaNodoHoja2;
+            pruebaNodoRama11->child_ptr[2] = nullptr;
+            pruebaNodoRama11->leaf = false;
+
+            BpTreeNode *pruebaNodoRama12;
+            pruebaNodoRama12 = crearNodoVacio();
+            pruebaNodoRama12->data[0] = 40;
+            pruebaNodoRama12->n = 1;
+            pruebaNodoRama12->child_ptr[0] = pruebaNodoHoja3;
+            pruebaNodoRama12->child_ptr[1] = pruebaNodoHoja4;
+            pruebaNodoRama12->child_ptr[2] = nullptr;
+            pruebaNodoRama12->leaf = false;
+
+            BpTreeNode *pruebaNodoRama13;
+            pruebaNodoRama13 = crearNodoVacio();
+            pruebaNodoRama13->data[0] = 60;
+            pruebaNodoRama13->n = 1;
+            pruebaNodoRama13->child_ptr[0] = pruebaNodoHoja5;
+            pruebaNodoRama13->child_ptr[1] = pruebaNodoHoja6;
+            pruebaNodoRama13->child_ptr[2] = nullptr;
+            pruebaNodoRama13->leaf = false;
+
+            BpTreeNode *pruebaNodoRama14;
+            pruebaNodoRama14 = crearNodoVacio();
+            pruebaNodoRama14->data[0] = 80;
+            pruebaNodoRama14->n = 1;
+            pruebaNodoRama14->child_ptr[0] = pruebaNodoHoja7;
+            pruebaNodoRama14->child_ptr[1] = pruebaNodoHoja8;
+            pruebaNodoRama14->child_ptr[2] = nullptr;
+            pruebaNodoRama14->leaf = false;
+
+            BpTreeNode *pruebaNodoRama01;
+            pruebaNodoRama01 = crearNodoVacio();
+            pruebaNodoRama01->data[0] = 30;
+            pruebaNodoRama01->n = 1;
+            pruebaNodoRama01->child_ptr[0] = pruebaNodoRama11;
+            pruebaNodoRama01->child_ptr[1] = pruebaNodoRama12;
+            pruebaNodoRama01->child_ptr[2] = nullptr;
+            pruebaNodoRama01->leaf = false;
+
+            BpTreeNode *pruebaNodoRama02;
+            pruebaNodoRama02 = crearNodoVacio();
+            pruebaNodoRama02->data[0] = 70;
+            pruebaNodoRama02->n = 1;
+            pruebaNodoRama02->child_ptr[0] = pruebaNodoRama13;
+            pruebaNodoRama02->child_ptr[1] = pruebaNodoRama14;
+            pruebaNodoRama02->child_ptr[2] = nullptr;
+            pruebaNodoRama02->leaf = false;
+
+            BpTreeNode *pruebaNodoRoot;
+            pruebaNodoRoot = crearNodoVacio();
+            pruebaNodoRoot->data[0] = 50;
+            pruebaNodoRoot->n = 1;
+            pruebaNodoRoot->child_ptr[0] = pruebaNodoRama01;
+            pruebaNodoRoot->child_ptr[1] = pruebaNodoRama02;
+            pruebaNodoRoot->child_ptr[2] = nullptr;
+            pruebaNodoRoot->leaf = false;
+
+            cout<<"****************************************\n";
+            int valorBuscado1 = 80;
+            cout<<"resultado de busqueda esperado: Valor encontrado.\n";
+            cout<<"resultado de busqueda obtenido: ";
+            bool resultadoDeBusqueda1 = buscarValor(pruebaNodoRoot,valorBuscado1, false);
+            if(resultadoDeBusqueda1 == true){
+                cout<< "Valor encontrado.";}
+            else cout<< "Valor no encontrado.";
+            cout<<"\n****************************************\n";
+
+            cout<<"****************************************\n";
+            int valorBuscado2 = 35;
+            cout<<"resultado de busqueda esperado: Valor no encontrado.\n";
+            cout<<"resultado de busqueda obtenido: ";
+            bool resultadoDeBusqueda2 = buscarValor(pruebaNodoRoot,valorBuscado2, false);
+            if(resultadoDeBusqueda2 == true){
+                cout<< "Valor encontrado.";}
+            else cout<< "Valor no encontrado.";
+            cout<<"\n****************************************\n";
+
+            cout<<"****************************************\n";
+            int valorBuscado3 = 50;
+            cout<<"resultado de busqueda esperado: Valor encontrado.\n";
+            cout<<"resultado de busqueda obtenido: ";
+            bool resultadoDeBusqueda3 = buscarValor(pruebaNodoRoot,valorBuscado3, false);
+            if(resultadoDeBusqueda3 == true){
+                cout<< "Valor encontrado.";}
+            else cout<< "Valor no encontrado.";
+            cout<<"\n****************************************\n";
+
+            cout<<"****************************************\n";
+            int valorBuscado4 = 15;
+            cout<<"resultado de busqueda esperado: Valor no encontrado.\n";
+            cout<<"resultado de busqueda obtenido: ";
+            bool resultadoDeBusqueda4 = buscarValor(pruebaNodoRoot,valorBuscado4, false);
+            if(resultadoDeBusqueda4 == true){
+                cout<< "Valor encontrado.";}
+            else cout<< "Valor no encontrado.";
+            cout<<"\n****************************************\n";
+
+            cout<<"****************************************\n";
+            int valorBuscado5 = 10;
+            cout<<"resultado de busqueda esperado: Valor encontrado.\n";
+            cout<<"resultado de busqueda obtenido: ";
+            bool resultadoDeBusqueda5 = buscarValor(pruebaNodoRoot,valorBuscado5, false);
+            if(resultadoDeBusqueda5 == true){
+                cout<< "Valor encontrado.";}
+            else cout<< "Valor no encontrado.";
+            cout<<"\n****************************************\n";
+        }
+    }
 
 private:
 
@@ -453,6 +718,7 @@ private:
         }
         return node;
     }
+
     int getChildCount(BpTreeNode *node) {
         int i = 0;
         while (true) {
@@ -460,6 +726,7 @@ private:
             i++;
         }
     }
+
     void sort(int *nodo, int lugaresOcupados)
     {
         int i, j, temp;
@@ -475,6 +742,7 @@ private:
             }
         }
     }
+
     int _getHeight (BpTreeNode* heightRootNode)
     {
         int childCount = getChildCount(heightRootNode);
@@ -491,6 +759,7 @@ private:
         }
         return 1+maxAltura;
     }
+
     void traverse(BpTreeNode* printTreeNode, vector<vector<string>>& miLista){
         static int niveles = 0;
         miLista[niveles].push_back("|");
@@ -511,6 +780,7 @@ private:
             niveles--;
         }
     }
+
     void _printTree(BpTreeNode* printTreeNode) {
         vector<vector<string>> miLista;
         int altura = _getHeight(printTreeNode);
@@ -526,6 +796,7 @@ private:
             cout << endl;
         }
     }
+
     BpTreeNode* getPadre(BpTreeNode* nodoRoot, BpTreeNode* nodoABuscar, bool recursiveCall) {
         int cantHijos = getChildCount(nodoRoot);
         static BpTreeNode* nodoEncontrado;
@@ -539,9 +810,74 @@ private:
         return nodoEncontrado;
     }
 
+    bool buscarValor(BpTreeNode* nodoRoot, int valorBuscado, bool recursiveCall){
+        int cantHijos = getChildCount(nodoRoot);
+        static bool yaSeEncontro = false;
+
+        if(recursiveCall == false) {yaSeEncontro = false;}
+        int clavesOcupadas = cantidadDeClavesOcupadas(nodoRoot);
+        if(nodoRoot->leaf == false)
+        {
+            int posicionHijoElegido = 0;
+            while (true) {
+                if (posicionHijoElegido == clavesOcupadas) {
+                    break;
+                }
+                else if(valorBuscado < nodoRoot->data[posicionHijoElegido]) break;
+                else posicionHijoElegido++;
+            }
+            buscarValor(nodoRoot->child_ptr[posicionHijoElegido], valorBuscado, true);
+        }
+        else{
+            for (int i = 0; i < clavesOcupadas ; i++) {
+                if(nodoRoot->data[i] == valorBuscado){
+                    yaSeEncontro = true;
+                }
+            }
+        }
+        return yaSeEncontro;
+    }
+
+
+    int cantidadDeClavesOcupadas(BpTreeNode* nodo){
+        int numeroDeElementos = 0;
+        for (int i = 0; i < cantClaves ; i++) {
+            if (nodo->data[i] != 0) numeroDeElementos++;
+        }
+        return numeroDeElementos;
+    }
 
     void organizarPunterosHijosDePadre(BpTreeNode* padre, vector<BpTreeNode*> hijos) {
+        int lugaresOcupadosPadre = cantidadDeClavesOcupadas(padre);
+        int cantidadDeHijos = lugaresOcupadosPadre + 1;
+        BpTreeNode* hijoEncontrado = nullptr;
 
+        for (int i = 0; i < lugaresOcupadosPadre ; i++) /*claves del padre*/{
+
+            for (int j = 0; j < 2 ; j++) /* puntero hijo de padre*/{
+
+                for (int l = 0; l < hijos.size() ; ++l) /*hijo de padre*/{
+
+                int lugaresOcupadosHijo = cantidadDeClavesOcupadas(hijos[l]);
+                    int valoresMenoresALaClaveDePadre=0;
+                    int valoresMayoresALaClaveDePadre=0;
+
+                    for (int k = 0; k < lugaresOcupadosHijo ; k++) /*claves de hijo*/ {
+
+                        if( hijos[l]->data[k] < padre->data[i]){
+                            valoresMenoresALaClaveDePadre++;
+                        }
+                    }
+                    if(lugaresOcupadosHijo == valoresMenoresALaClaveDePadre){
+                        hijoEncontrado = hijos[l];
+                        break;
+                    }
+                }
+                if(hijoEncontrado != nullptr){
+                padre->child_ptr[j] = hijoEncontrado;
+                }
+            }
+        }
     }
 
     int split_child(BpTreeNode *nodoOriginal, int i, int valIngresado)
