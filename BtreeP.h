@@ -41,6 +41,33 @@ public:
     void printTree() {
         _printTree(root);
     }
+    BpTreeNode* buscarValor(BpTreeNode* nodoRoot, int valorBuscado, bool recursiveCall){
+        int cantHijos = getChildCount(nodoRoot);
+        static BpTreeNode* nodoEncontrado = nullptr;
+
+        if(recursiveCall == false) {nodoEncontrado = nullptr;}
+        int clavesOcupadas = cantidadDeClavesOcupadas(nodoRoot);
+        if(nodoRoot->leaf == false)
+        {
+            int posicionHijoElegido = 0;
+            while (true) {
+                if (posicionHijoElegido == clavesOcupadas) {
+                    break;
+                }
+                else if(valorBuscado < nodoRoot->data[posicionHijoElegido]) break;
+                else posicionHijoElegido++;
+            }
+            buscarValor(nodoRoot->child_ptr[posicionHijoElegido], valorBuscado, true);
+        }
+        else{
+            for (int i = 0; i < clavesOcupadas ; i++) {
+                if(nodoRoot->data[i] == valorBuscado){
+                    nodoEncontrado = nodoRoot;
+                }
+            }
+        }
+        return nodoEncontrado;
+    }
     void test_getPadre() {
         cout << "\nArbol de prueba de grado 4, setear el grado en ese valor o valor mayor\n";
         cout << "\nPROBAMOS LA FUNCION PRINT_TREE"<<endl<<"Haremos el siguiente BpTree hardcodeado:" << endl<<endl;
@@ -652,9 +679,11 @@ public:
             int valorBuscado1 = 80;
             cout<<"resultado de busqueda esperado: Valor encontrado.\n";
             cout<<"resultado de busqueda obtenido: ";
-            bool resultadoDeBusqueda1 = buscarValor(pruebaNodoRoot,valorBuscado1, false);
-            if(resultadoDeBusqueda1 == true){
-                cout<< "Valor encontrado.";}
+            BpTreeNode* resultadoDeBusqueda1 = buscarValor(pruebaNodoRoot,valorBuscado1, false);
+            if(resultadoDeBusqueda1 != nullptr){
+                cout<< "Valor encontrado.\n Este valor pertenece al Nodo: ";
+                resultadoDeBusqueda1->print();
+            }
             else cout<< "Valor no encontrado.";
             cout<<"\n****************************************\n";
 
@@ -662,9 +691,11 @@ public:
             int valorBuscado2 = 35;
             cout<<"resultado de busqueda esperado: Valor no encontrado.\n";
             cout<<"resultado de busqueda obtenido: ";
-            bool resultadoDeBusqueda2 = buscarValor(pruebaNodoRoot,valorBuscado2, false);
-            if(resultadoDeBusqueda2 == true){
-                cout<< "Valor encontrado.";}
+            BpTreeNode* resultadoDeBusqueda2 = buscarValor(pruebaNodoRoot,valorBuscado2, false);
+            if(resultadoDeBusqueda2 != nullptr){
+                cout<< "Valor encontrado.\n Este valor pertenece al Nodo: ";
+                resultadoDeBusqueda2->print();
+            }
             else cout<< "Valor no encontrado.";
             cout<<"\n****************************************\n";
 
@@ -672,9 +703,11 @@ public:
             int valorBuscado3 = 50;
             cout<<"resultado de busqueda esperado: Valor encontrado.\n";
             cout<<"resultado de busqueda obtenido: ";
-            bool resultadoDeBusqueda3 = buscarValor(pruebaNodoRoot,valorBuscado3, false);
-            if(resultadoDeBusqueda3 == true){
-                cout<< "Valor encontrado.";}
+            BpTreeNode* resultadoDeBusqueda3 = buscarValor(pruebaNodoRoot,valorBuscado3, false);
+            if(resultadoDeBusqueda3 != nullptr){
+                cout<< "Valor encontrado.\n Este valor pertenece al Nodo: ";
+                resultadoDeBusqueda3->print();
+            }
             else cout<< "Valor no encontrado.";
             cout<<"\n****************************************\n";
 
@@ -682,9 +715,11 @@ public:
             int valorBuscado4 = 15;
             cout<<"resultado de busqueda esperado: Valor no encontrado.\n";
             cout<<"resultado de busqueda obtenido: ";
-            bool resultadoDeBusqueda4 = buscarValor(pruebaNodoRoot,valorBuscado4, false);
-            if(resultadoDeBusqueda4 == true){
-                cout<< "Valor encontrado.";}
+            BpTreeNode* resultadoDeBusqueda4 = buscarValor(pruebaNodoRoot,valorBuscado4, false);
+            if(resultadoDeBusqueda4 != nullptr){
+                cout<< "Valor encontrado.\n Este valor pertenece al Nodo: ";
+                resultadoDeBusqueda4->print();
+            }
             else cout<< "Valor no encontrado.";
             cout<<"\n****************************************\n";
 
@@ -692,9 +727,11 @@ public:
             int valorBuscado5 = 10;
             cout<<"resultado de busqueda esperado: Valor encontrado.\n";
             cout<<"resultado de busqueda obtenido: ";
-            bool resultadoDeBusqueda5 = buscarValor(pruebaNodoRoot,valorBuscado5, false);
-            if(resultadoDeBusqueda5 == true){
-                cout<< "Valor encontrado.";}
+            BpTreeNode* resultadoDeBusqueda5 = buscarValor(pruebaNodoRoot,valorBuscado5, false);
+            if(resultadoDeBusqueda5 != nullptr){
+                cout<< "Valor encontrado.\n Este valor pertenece al Nodo: ";
+                resultadoDeBusqueda5->print();
+            }
             else cout<< "Valor no encontrado.";
             cout<<"\n****************************************\n";
         }
@@ -810,33 +847,7 @@ private:
         return nodoEncontrado;
     }
 
-    bool buscarValor(BpTreeNode* nodoRoot, int valorBuscado, bool recursiveCall){
-        int cantHijos = getChildCount(nodoRoot);
-        static bool yaSeEncontro = false;
 
-        if(recursiveCall == false) {yaSeEncontro = false;}
-        int clavesOcupadas = cantidadDeClavesOcupadas(nodoRoot);
-        if(nodoRoot->leaf == false)
-        {
-            int posicionHijoElegido = 0;
-            while (true) {
-                if (posicionHijoElegido == clavesOcupadas) {
-                    break;
-                }
-                else if(valorBuscado < nodoRoot->data[posicionHijoElegido]) break;
-                else posicionHijoElegido++;
-            }
-            buscarValor(nodoRoot->child_ptr[posicionHijoElegido], valorBuscado, true);
-        }
-        else{
-            for (int i = 0; i < clavesOcupadas ; i++) {
-                if(nodoRoot->data[i] == valorBuscado){
-                    yaSeEncontro = true;
-                }
-            }
-        }
-        return yaSeEncontro;
-    }
 
 
     int cantidadDeClavesOcupadas(BpTreeNode* nodo){
