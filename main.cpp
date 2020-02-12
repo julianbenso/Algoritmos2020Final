@@ -23,7 +23,8 @@ int main()
     //arbol->test_buscarMedio();//para hacer este test correctamente se debe descomentar
     // los cout en la funcion buscarMedio.
     //arbol->test_cantidadDeClavesOcupadas();
-    arbol->test_buscarValor();
+    //arbol->test_buscarValor();
+    arbol->test_buscarNodoEnDondeInsertarValorIngresado();
     //--------------------------------------------
 
     /*int cantidadElementos, ValorIngresado;
