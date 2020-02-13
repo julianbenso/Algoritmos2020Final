@@ -1005,7 +1005,7 @@ public:
             cout << "\n****************************************\n";
         }
 
-        if (grado == 4) {
+        else if (grado == 4) {
             cout << "\nSe crea el siguiente BpTree hardcodeado:\n";
             cout << "| 40 |" << endl;
             cout << "| 20 30 | | 50  60 |" << endl;
@@ -1481,8 +1481,8 @@ public:
             cout << "| 14 18 52 67 n=4c=5|" << endl;
             cout << "| 6 13 n=2c=0| | 14 16 n=2c=0| | 18 20 33 n=3c=0| | 52 59 n=2c=0| | 67 83 91 n=3c=0|\n\n";
             cout << "Arbol Obtenido:\n";
-            //organizarPunterosHijosDePadre(pruebaNodoRoot2,hijosDesordenados2);
-            //_printTree(pruebaNodoRoot2);
+            organizarPunterosHijosDePadre(pruebaNodoRoot2,hijosDesordenados2);
+            _printTree(pruebaNodoRoot2);
             cout << "\n*********************************************\n";
 
             BpTreeNode *pruebaNodoHoja9;
@@ -1563,10 +1563,10 @@ private:
     BpTreeNode * crearNodoVacio()
     {
         int numHijos = grado;
-        BpTreeNode *node = new BpTreeNode;
+        BpTreeNode *node = new BpTreeNode();
         node->data = new int[cantClaves];
         node->child_ptr = new BpTreeNode *[numHijos+1];
-        node->child_ptr[numHijos+1] = nullptr;
+        node->child_ptr[numHijos] = nullptr;
         node->leaf = true;
         node->n = 0;
         for (int i = 0; i < grado; i++){
