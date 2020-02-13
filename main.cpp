@@ -26,7 +26,8 @@ int main()
     //arbol->test_buscarValor();
     //arbol->test_buscarNodoEnDondeInsertarValorIngresado();
     //arbol->test_separarNodo();
-    arbol->test_organizarPunterosHijosDePadre();
+    //arbol->test_organizarPunterosHijosDePadre();
+    arbol->test_printTree();
     //--------------------------------------------
 
     /*int cantidadElementos, ValorIngresado;

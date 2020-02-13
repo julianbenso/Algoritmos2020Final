@@ -50,6 +50,84 @@ public:
     }
 
     /********************FUNCIONES TEST********************/
+    void test_printTree(){
+        cout << "\n-------------TEST IMPRIMIR ARBOL-------------\n";
+        cout << "Este test funciona para grado 5\n";
+
+        if (grado == 5){
+
+            BpTreeNode *pruebaNodoHoja1;
+            pruebaNodoHoja1 = crearNodoVacio();
+            pruebaNodoHoja1->data[0] = 6;
+            pruebaNodoHoja1->data[1] = 13;
+            pruebaNodoHoja1->n = 2;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja1->child_ptr[i] = nullptr; }
+            pruebaNodoHoja1->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja2;
+            pruebaNodoHoja2 = crearNodoVacio();
+            pruebaNodoHoja2->data[0] = 14;
+            pruebaNodoHoja2->data[1] = 16;
+            pruebaNodoHoja2->n = 2;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja2->child_ptr[i] = nullptr; }
+            pruebaNodoHoja2->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja3;
+            pruebaNodoHoja3 = crearNodoVacio();
+            pruebaNodoHoja3->data[0] = 18;
+            pruebaNodoHoja3->data[1] = 20;
+            pruebaNodoHoja3->data[2] = 33;
+            pruebaNodoHoja3->n = 2;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja3->child_ptr[i] = nullptr; }
+            pruebaNodoHoja3->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja4;
+            pruebaNodoHoja4 = crearNodoVacio();
+            pruebaNodoHoja4->data[0] = 52;
+            pruebaNodoHoja4->data[1] = 59;
+            pruebaNodoHoja4->n = 2;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja4->child_ptr[i] = nullptr; }
+            pruebaNodoHoja4->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja5;
+            pruebaNodoHoja5 = crearNodoVacio();
+            pruebaNodoHoja5->data[0] = 67;
+            pruebaNodoHoja5->data[1] = 83;
+            pruebaNodoHoja5->data[2] = 91;
+            pruebaNodoHoja5->n = 2;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja5->child_ptr[i] = nullptr; }
+            pruebaNodoHoja5->leaf = true;
+
+            BpTreeNode *pruebaNodoRoot1;
+            pruebaNodoRoot1 = crearNodoVacio();
+            pruebaNodoRoot1->data[0] = 14;
+            pruebaNodoRoot1->data[1] = 18;
+            pruebaNodoRoot1->data[2] = 52;
+            pruebaNodoRoot1->data[3] = 67;
+            pruebaNodoRoot1->n = 4;
+            pruebaNodoRoot1->child_ptr[0] = pruebaNodoHoja1;
+            pruebaNodoRoot1->child_ptr[1] = pruebaNodoHoja2;
+            pruebaNodoRoot1->child_ptr[2] = pruebaNodoHoja3;
+            pruebaNodoRoot1->child_ptr[3] = pruebaNodoHoja4;
+            pruebaNodoRoot1->child_ptr[4] = pruebaNodoHoja5;
+            pruebaNodoRoot1->leaf = false;
+
+
+            cout << "*********************************************";
+            cout << "\nSe crean el siguente arbol hardcodeado:\n";
+            cout << "| 14 18 52 67 |" << endl;
+            cout << "| 6 13 | | 14 16 | | 18 20 33 | | 52 59 | | 67 83 91 |\n";
+            cout <<"\n-------------------------------------------------\n";
+            cout <<" Arbol esperado:\n";
+            cout << "| 14 18 52 67 n=4c=5|" << endl;
+            cout << "| 6 13 n=2c=0| | 14 16 n=2c=0| | 18 20 33 n=3c=0| | 52 59 n=2c=0| | 67 83 91 n=3c=0|\n\n";
+            cout << "Arbol Obtenido:\n";
+            _printTree(pruebaNodoRoot1);
+            cout << "\n*********************************************\n";
+        }
+
+    }
+
     void test_getPadre() {
         cout << "\nArbol de prueba de grado 4, setear el grado en ese valor o valor mayor\n";
         cout << "\nPROBAMOS LA FUNCION PRINT_TREE" << endl
@@ -1092,7 +1170,7 @@ public:
             cout << "Se espera lo siguiente:\n";
             cout << "Padre: | 10 40 |\nHijo menor: | 10 30 |\nhijo mayor: | 50 70 |\n";
             cout << "\nSe obtiene lo siguiente: ";
-            separarNodo(pruebaNodoRoot1, pruebaNodoHoja2, insertarValor1);
+            separarNodo(pruebaNodoRoot1, pruebaNodoHoja2, insertarValor1,false);
             cout << "*********************************************\n";
 
             cout << "\n*********************************************";
@@ -1145,7 +1223,7 @@ public:
             cout << "Se espera lo siguiente:\n";
             cout << "Padre: | 20 22 40 |\nHijo menor: | 20 21 |\nhijo mayor: | 28 30 |";
             cout << "\nSe obtiene lo siguiente: ";
-            separarNodo(pruebaNodoRoot5, pruebaNodoHoja4, insertarValor5);
+            separarNodo(pruebaNodoRoot5, pruebaNodoHoja4, insertarValor5,false);
             cout << "*********************************************\n";
 
 
@@ -1169,7 +1247,7 @@ public:
             cout << "Se espera lo siguiente:\n";
             cout << "Padre: | 22 |\nHijo menor: | 15 18 |\nhijo mayor: | 40 57 |";
             cout << "\nSe obtiene lo siguiente: ";
-            separarNodo(pruebaNodoRoot2, pruebaNodoRoot2, insertarValor2);
+            separarNodo(pruebaNodoRoot2, pruebaNodoRoot2, insertarValor2,false);
             cout << "*********************************************\n";
 
             cout << "\n*********************************************";
@@ -1192,7 +1270,7 @@ public:
             cout << "Se espera lo siguiente:\n";
             cout << "Padre: | 21 |\nHijo menor: | 8  19 |\nhijo mayor: | 23 81 |\n";
             cout << "\nSe obtiene lo siguiente: ";
-            separarNodo(pruebaNodoRoot3, pruebaNodoRoot3, insertarValor3);
+            separarNodo(pruebaNodoRoot3, pruebaNodoRoot3, insertarValor3,false);
             cout << "*********************************************\n";
         }
 
@@ -1200,8 +1278,9 @@ public:
             cout << "*********************************************";
             cout << "\nSe crea el siguiente BpTree hardcodeado:\n";
             cout << "| 30 50 70 |" << endl;
-            cout << "| 10 12 | | 30 40 | | 50 60 | | 70 80 90 |" << endl;
+            cout << "| 10 12 | | 30 40 | | 50 55 60 | | 70 80 90 |" << endl;
             int insertarValor1 = 72;
+            int insertarValor2 = 58;
 
             BpTreeNode *pruebaNodoHoja1;
             pruebaNodoHoja1 = crearNodoVacio();
@@ -1222,8 +1301,9 @@ public:
             BpTreeNode *pruebaNodoHoja3;
             pruebaNodoHoja3 = crearNodoVacio();
             pruebaNodoHoja3->data[0] = 50;
-            pruebaNodoHoja3->data[1] = 60;
-            pruebaNodoHoja3->n = 2;
+            pruebaNodoHoja3->data[1] = 55;
+            pruebaNodoHoja3->data[2] = 60;
+            pruebaNodoHoja3->n = 3;
             for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja3->child_ptr[i] = nullptr; }
             pruebaNodoHoja3->leaf = true;
 
@@ -1251,16 +1331,26 @@ public:
             cout << "Se inserta el valor: " << insertarValor1;
             cout << "\n--------------------------------------\n";
             cout << "Se espera lo siguiente:\n";
-            cout << "Padre: | 70 |\nHijo menor: | 30 50 |\nhijo mayor: | 80 |\n";
+            cout << "Padre: | 70 |\nHijo menor: | 30 50 |\nhijo mayor: | 80 |\n\n";
+            cout << "Padre: | 80 |\nHijo menor: | 70 72 |\nHijo mayor: | 90 |\n";
             cout << "\nSe obtiene lo siguiente: ";
-            separarNodo(pruebaNodoRoot1, pruebaNodoHoja4, insertarValor1);
+            separarNodo(pruebaNodoRoot1, pruebaNodoHoja2, insertarValor1, false);
+            cout << "*********************************************\n\n";
+
+            cout << "Se inserta el valor: " << insertarValor2;
+            cout << "\n--------------------------------------\n";
+            cout << "Se espera lo siguiente:\n";
+            cout << "Padre: | 58 |\nHijo menor: | 30 50 |\nhijo mayor: | 70 |\n\n";
+            cout << "Padre: | 70 |\nHijo menor: | 50 55 |\nHijo mayor: | 60 |\n";
+            cout << "\nSe obtiene lo siguiente: ";
+            separarNodo(pruebaNodoRoot1, pruebaNodoHoja3, insertarValor2, false);
             cout << "*********************************************\n";
         }
     }
 
     void test_organizarPunterosHijosDePadre(){
         cout << "\n-------------TEST ORGANIZAR LOS PUNTERO DEL NODO PADRE-------------\n";
-        cout << "Este test funciona para grado 4 y 5\n\n";
+        cout << "Este test funciona para grado 5 y 6\n\n";
 
         if( grado == 5){
             BpTreeNode *pruebaNodoHoja1;
@@ -1300,10 +1390,10 @@ public:
             pruebaNodoRoot1->child_ptr[4] = nullptr;
             pruebaNodoRoot1->leaf = false;
 
-            vector<BpTreeNode*>hijosDespordenados;
-            hijosDespordenados.push_back(pruebaNodoHoja1);
-            hijosDespordenados.push_back(pruebaNodoHoja2);
-            hijosDespordenados.push_back(pruebaNodoHoja3);
+            vector<BpTreeNode*>hijosDesordenados1;
+            hijosDesordenados1.push_back(pruebaNodoHoja1);
+            hijosDesordenados1.push_back(pruebaNodoHoja2);
+            hijosDesordenados1.push_back(pruebaNodoHoja3);
 
             cout << "*********************************************";
             cout << "\nSe crean los siguientes nodos hardcodeado:\n";
@@ -1314,17 +1404,154 @@ public:
             cout << "| 18 35 n=2c=3|" << endl;
             cout << "| 8 12 n=2c=0| | 18 31 n=2c=0| | 35 51 62 n=3c=0|\n\n";
             cout << "Arbol Obtenido:\n";
-            organizarPunterosHijosDePadre(pruebaNodoRoot1,hijosDespordenados);
+            organizarPunterosHijosDePadre(pruebaNodoRoot1,hijosDesordenados1);
             _printTree(pruebaNodoRoot1);
             cout << "\n*********************************************\n";
 
+            BpTreeNode *pruebaNodoHoja4;
+            pruebaNodoHoja4 = crearNodoVacio();
+            pruebaNodoHoja4->data[0] = 52;
+            pruebaNodoHoja4->data[1] = 59;
+            pruebaNodoHoja4->n = 2;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja4->child_ptr[i] = nullptr; }
+            pruebaNodoHoja4->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja5;
+            pruebaNodoHoja5 = crearNodoVacio();
+            pruebaNodoHoja5->data[0] = 18;
+            pruebaNodoHoja5->data[1] = 20;
+            pruebaNodoHoja5->data[2] = 33;
+            pruebaNodoHoja5->n = 3;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja5->child_ptr[i] = nullptr; }
+            pruebaNodoHoja5->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja6;
+            pruebaNodoHoja6 = crearNodoVacio();
+            pruebaNodoHoja6->data[0] = 6;
+            pruebaNodoHoja6->data[1] = 13;
+            pruebaNodoHoja6->n = 2;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja6->child_ptr[i] = nullptr; }
+            pruebaNodoHoja6->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja7;
+            pruebaNodoHoja7 = crearNodoVacio();
+            pruebaNodoHoja7->data[0] = 67;
+            pruebaNodoHoja7->data[1] = 83;
+            pruebaNodoHoja7->data[2] = 91;
+            pruebaNodoHoja7->n = 3;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja7->child_ptr[i] = nullptr; }
+            pruebaNodoHoja7->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja8;
+            pruebaNodoHoja8 = crearNodoVacio();
+            pruebaNodoHoja8->data[0] = 14;
+            pruebaNodoHoja8->data[1] = 16;
+            pruebaNodoHoja8->n = 2;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja8->child_ptr[i] = nullptr; }
+            pruebaNodoHoja8->leaf = true;
+
+            BpTreeNode *pruebaNodoRoot2;
+            pruebaNodoRoot2 = crearNodoVacio();
+            pruebaNodoRoot2->data[0] = 14;
+            pruebaNodoRoot2->data[1] = 18;
+            pruebaNodoRoot2->data[2] = 52;
+            pruebaNodoRoot2->data[3] = 67;
+            pruebaNodoRoot2->n = 4;
+            pruebaNodoRoot2->child_ptr[0] = pruebaNodoHoja4;
+            pruebaNodoRoot2->child_ptr[1] = pruebaNodoHoja5;
+            pruebaNodoRoot2->child_ptr[2] = pruebaNodoHoja6;
+            pruebaNodoRoot2->child_ptr[3] = pruebaNodoHoja7;
+            pruebaNodoRoot2->child_ptr[4] = pruebaNodoHoja8;
+            pruebaNodoRoot2->leaf = false;
+
+            vector<BpTreeNode*>hijosDesordenados2;
+            hijosDesordenados2.push_back(pruebaNodoHoja4);
+            hijosDesordenados2.push_back(pruebaNodoHoja5);
+            hijosDesordenados2.push_back(pruebaNodoHoja6);
+            hijosDesordenados2.push_back(pruebaNodoHoja7);
+            hijosDesordenados2.push_back(pruebaNodoHoja8);
+
+            cout << "*********************************************";
+            cout << "\nSe crean los siguientes nodos hardcodeado:\n";
+            cout << "padre: | 14 18 52 67 |" << endl;
+            cout << "ch0: | 52 59 |\nch1: | 18 20 33 |\nch2: | 6 13 |\n";
+            cout << "ch3: | 67 83 91 |\nch4: | 14 16 |";
+            cout <<"\n-------------------------------------------------\n";
+            cout <<" Arbol esperado:\n";
+            cout << "| 14 18 52 67 n=4c=5|" << endl;
+            cout << "| 6 13 n=2c=0| | 14 16 n=2c=0| | 18 20 33 n=3c=0| | 52 59 n=2c=0| | 67 83 91 n=3c=0|\n\n";
+            cout << "Arbol Obtenido:\n";
+            //organizarPunterosHijosDePadre(pruebaNodoRoot2,hijosDesordenados2);
+            //_printTree(pruebaNodoRoot2);
+            cout << "\n*********************************************\n";
+
+            BpTreeNode *pruebaNodoHoja9;
+            pruebaNodoHoja9 = crearNodoVacio();
+            pruebaNodoHoja9->data[0] = 52;
+            pruebaNodoHoja9->data[1] = 59;
+            pruebaNodoHoja9->data[2] = 67;
+            pruebaNodoHoja9->n = 3;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja9->child_ptr[i] = nullptr; }
+            pruebaNodoHoja9->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja10;
+            pruebaNodoHoja10 = crearNodoVacio();
+            pruebaNodoHoja10->data[0] = 18;
+            pruebaNodoHoja10->data[1] = 20;
+            pruebaNodoHoja10->data[2] = 33;
+            pruebaNodoHoja10->n = 3;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja10->child_ptr[i] = nullptr; }
+            pruebaNodoHoja10->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja11;
+            pruebaNodoHoja11 = crearNodoVacio();
+            pruebaNodoHoja11->data[0] = 6;
+            pruebaNodoHoja11->data[1] = 13;
+            pruebaNodoHoja11->n = 2;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja11->child_ptr[i] = nullptr; }
+            pruebaNodoHoja11->leaf = true;
+
+            BpTreeNode *pruebaNodoHoja12;
+            pruebaNodoHoja12 = crearNodoVacio();
+            pruebaNodoHoja12->data[0] = 14;
+            pruebaNodoHoja12->data[1] = 16;
+            pruebaNodoHoja12->n = 2;
+            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja12->child_ptr[i] = nullptr; }
+            pruebaNodoHoja12->leaf = true;
+
+            BpTreeNode *pruebaNodoRoot3;
+            pruebaNodoRoot3 = crearNodoVacio();
+            pruebaNodoRoot3->data[0] = 14;
+            pruebaNodoRoot3->data[1] = 18;
+            pruebaNodoRoot3->data[2] = 52;
+            pruebaNodoRoot3->n = 3;
+            pruebaNodoRoot3->child_ptr[0] = pruebaNodoHoja9;
+            pruebaNodoRoot3->child_ptr[1] = pruebaNodoHoja10;
+            pruebaNodoRoot3->child_ptr[2] = pruebaNodoHoja11;
+            pruebaNodoRoot3->child_ptr[3] = pruebaNodoHoja12;
+            pruebaNodoRoot3->child_ptr[4] = nullptr;
+            pruebaNodoRoot3->leaf = false;
+
+            vector<BpTreeNode*>hijosDesordenados3;
+            hijosDesordenados3.push_back(pruebaNodoHoja9);
+            hijosDesordenados3.push_back(pruebaNodoHoja10);
+            hijosDesordenados3.push_back(pruebaNodoHoja11);
+            hijosDesordenados3.push_back(pruebaNodoHoja12);
+
+            cout << "*********************************************";
+            cout << "\nSe crean los siguientes nodos hardcodeado:\n";
+            cout << "padre: | 14 18 52 |" << endl;
+            cout << "ch0: | 52 59 67 |\nch1: | 18 20 33 |\nch2: | 6 13 |\n";
+            cout << "ch3: | 14 16 |";
+            cout <<"\n-------------------------------------------------\n";
+            cout <<" Arbol esperado:\n";
+            cout << "| 14 18 52  n=3c=4|" << endl;
+            cout << "| 6 13 n=2c=0| | 14 16 n=2c=0| | 18 20 33 n=3c=0| | 52 59 67 n=3c=0|\n\n";
+            cout << "Arbol Obtenido:\n";
+            organizarPunterosHijosDePadre(pruebaNodoRoot3,hijosDesordenados3);
+            _printTree(pruebaNodoRoot3);
+            cout << "\n*********************************************\n";
         }
-
-
-
-
-
-
     }
     /*******************************************************/
 
@@ -1338,7 +1565,8 @@ private:
         int numHijos = grado;
         BpTreeNode *node = new BpTreeNode;
         node->data = new int[cantClaves];
-        node->child_ptr = new BpTreeNode *[numHijos];
+        node->child_ptr = new BpTreeNode *[numHijos+1];
+        node->child_ptr[numHijos+1] = nullptr;
         node->leaf = true;
         node->n = 0;
         for (int i = 0; i < grado; i++){
@@ -1350,8 +1578,8 @@ private:
     int getChildCount(BpTreeNode *node) {
         int i = 0;
         while (true) {
-            if (node->child_ptr[i] == nullptr) return i;
-            i++;
+            if (node->child_ptr[i] == nullptr ) return i;
+                i++;
         }
     }
 
@@ -1570,18 +1798,17 @@ private:
         }
     }
 
-
     void organizarPunterosHijosDePadre(BpTreeNode* padre, vector<BpTreeNode*> hijos) {
-        int clavesOcupadasPadre = cantidadDeClavesOcupadas(padre);  // 2
-        int cantidadDeHijosDelPadre = clavesOcupadasPadre + 1;      //3
+        int clavesOcupadasPadre = cantidadDeClavesOcupadas(padre);
+        int cantidadDeHijosDelPadre = clavesOcupadasPadre + 1;
 
         for (int k = 0; k < cantidadDeHijosDelPadre ; k++) {
            padre->child_ptr[k] = nullptr;
         }
 
-        for (int i = 0; i <= clavesOcupadasPadre; i++) {            //clave 2  i
+        for (int i = 0; i <= clavesOcupadasPadre; i++) {
 
-            for (int j = 0; j < hijos.size() ; j++) {               //hijo 0   j  hijos.size()=3
+            for (int j = 0; j < hijos.size() ; j++) {
                  BpTreeNode* AsignarPunteroAHijo = hijos.at(j);
                  bool hijoEncontrado = false;
                 if( i == 0){
@@ -1615,7 +1842,7 @@ private:
 
     }
 
-    void separarNodo(BpTreeNode* nodoRoot, BpTreeNode* nodoASeparar, int valorInsertado){
+    void separarNodo(BpTreeNode* nodoRoot, BpTreeNode* nodoASeparar, int valorInsertado, bool recursiveCall){
 
         int valorMedio = buscarMedio(nodoASeparar,valorInsertado);
         bool valorMedioPertenceAlNodo = valorMedioPerteneceANodo(nodoASeparar,valorMedio);
@@ -1627,12 +1854,19 @@ private:
             padreVacio = crearNodoVacio();
             padre = padreVacio;
         }
-        BpTreeNode* hijoMenor = crearNodoVacio();
-        hijoMenor->leaf = true;
-        BpTreeNode* hijoMayor = crearNodoVacio();
-        hijoMayor->leaf = true;
 
-        /**ESTO SE DA SI EL ELEMENTO A SEPARAR TIENE PADRE**/
+        BpTreeNode* hijoMenor = crearNodoVacio();
+        BpTreeNode* hijoMayor = crearNodoVacio();
+        if( recursiveCall == true){
+            hijoMenor->leaf = false;
+            hijoMayor->leaf = false;
+        }
+        else{
+            hijoMenor->leaf = true;
+            hijoMayor->leaf = true;
+        }
+
+
         if(valorMedioPertenceAlNodo == true){
 
             int posicionDelValorMedio = posicionDelElementoMedio(nodoASeparar,valorInsertado);
@@ -1662,14 +1896,21 @@ private:
                 sort(hijoMayor->data,cantidadClavesLlenasHijoMayor);
             }
             /**Rellenamos Padre**/
-            int cantidadClavesLlenasPadre = cantidadDeClavesOcupadas(padre);
-            if(cantidadClavesLlenasPadre == cantClaves){
-                separarNodo(nodoRoot,padre,valorMedio);
+            int cantidadClavesLlenasPadre1 = cantidadDeClavesOcupadas(padre);
+            if(cantidadClavesLlenasPadre1 == cantClaves){
+                separarNodo(nodoRoot,padre,valorMedio, true);
+                BpTreeNode* padreNuevo;
+                padreNuevo = crearNodoVacio();
+                padreNuevo->leaf = false;
+                padreNuevo->data[0] = valorMedio;
+                padre = padreNuevo;
             }
+            int cantidadClavesLlenasPadre = cantidadDeClavesOcupadas(padre);
             padre->data[cantidadClavesLlenasPadre] = valorMedio;
             padre->n++;
             cantidadClavesLlenasPadre++;
             sort(padre->data, cantidadClavesLlenasPadre);
+
 
             /*Para hacer el test*/
             cout<<"\nPadre: ";
@@ -1699,7 +1940,11 @@ private:
             /**Rellenamos Padre**/
             int cantidadClavesLlenasPadre = cantidadDeClavesOcupadas(padre);
             if(cantidadClavesLlenasPadre == cantClaves){
-                separarNodo(nodoRoot,padre,valorMedio);
+                separarNodo(nodoRoot,padre,valorMedio, true);
+                BpTreeNode* padreNuevo;
+                padreNuevo = crearNodoVacio();
+                padreNuevo->data[0] = valorMedio;
+                padre = padreNuevo;
             }
             padre->data[cantidadClavesLlenasPadre] = valorMedio;
             padre->n++;
@@ -1716,8 +1961,10 @@ private:
         }
     }
 
+    vector<BpTreeNode*> hijosDePadre (BpTreeNode* Root, BpTreeNode* Padre, BpTreeNode* hijoNuevo1, BpTreeNode* hijoNuevo2 ){
 
-
+        if(hijoNuevo1->leaf == true || hijoNuevo2->leaf == true);
+    }
 
 
 
