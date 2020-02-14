@@ -11,7 +11,7 @@ using namespace std;
 int main()
 {
     int grado;
-    cout<<"Grados de variable admitidos: 3, 4, 5 y 6\n";
+    cout<<"GRADOS ADMITIDOS:3,4,5,6,7\n";
     cout <<"Indicar el grado de variable: ";
     cin >> grado;
     BtreeP* arbol = new BtreeP(grado);
@@ -25,24 +25,22 @@ int main()
     //arbol->test_cantidadDeClavesOcupadas();
     //arbol->test_buscarValor();
     //arbol->test_buscarNodoEnDondeInsertarValorIngresado();
-    arbol->test_separarNodo();
+    //arbol->test_separarNodo();
     //arbol->test_organizarPunterosHijosDePadre();
     //arbol->test_printTree();
     //arbol->test_nodosHojasDelArbol();
     //--------------------------------------------
 
-    /*int cantidadElementos, ValorIngresado;
+    int cantidadElementos, ValorIngresado;
     cout<<"Ingresar cantidad de elementos a insertar: ";
     cin>>cantidadElementos;
 
     for(int i = 0; i < cantidadElementos; i++)
     {
-        cout << "Ingresar valor: ";
+        cout << "\nIngresar valor: ";
         cin >> ValorIngresado;
         arbol->insert(ValorIngresado);
     }
-    cout << "Arbol trasversal:"<<endl;
-    arbol->printTree();*/
-
-    //getch();
+    cout << "\n\nArbol trasversal:\n";
+    arbol->printTree();
 }
