@@ -24,10 +24,11 @@ int main()
     // los cout en la funcion buscarMedio.
     //arbol->test_cantidadDeClavesOcupadas();
     //arbol->test_buscarValor();
-    arbol->test_buscarNodoEnDondeInsertarValorIngresado();
-    //arbol->test_separarNodo();
+    //arbol->test_buscarNodoEnDondeInsertarValorIngresado();
+    arbol->test_separarNodo();
     //arbol->test_organizarPunterosHijosDePadre();
     //arbol->test_printTree();
+    //arbol->test_nodosHojasDelArbol();
     //--------------------------------------------
 
     /*int cantidadElementos, ValorIngresado;

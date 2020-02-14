@@ -31,6 +31,10 @@ public:
             }
             cout << " |" << endl;
         }
+
+        bool isLeaf () {
+            return getChildCount(this) == 0;
+        }
     };
 
     int getHeight() {
@@ -38,7 +42,27 @@ public:
     }
 
     void insert(int numeroAInsertar) {
-        _insert(numeroAInsertar, root);
+        if (root == nullptr) {
+            root = crearNodoVacio();
+            root->data[0] = numeroAInsertar;
+            root->leaf = true;
+            cout << "Primer valor insertado en nodo" << endl;
+        }
+        else {
+            BpTreeNode* nodoLeafDondeInsertar = buscarNodoEnDondeInsertarValorIngresado(root,numeroAInsertar,false);
+            int clavesOcupadas = cantidadDeClavesOcupadas(nodoLeafDondeInsertar);
+            if (clavesOcupadas < cantClaves) {
+                nodoLeafDondeInsertar->data[clavesOcupadas] = numeroAInsertar;
+                sort(nodoLeafDondeInsertar->data,clavesOcupadas+1);
+                cout << "Insertado y ordenado exitosamente" << endl;
+            }
+            else {
+                // El nodo esta lleno
+                //separarNodo(root,nodoLeafDondeInsertar,numeroAInsertar,false,);
+
+            }
+        }
+
     }
 
     void printTree() {
@@ -813,8 +837,7 @@ public:
 
     void test_buscarNodoEnDondeInsertarValorIngresado() {
 
-        cout
-                << "\n-------------TEST BUSCAR NODO EN EL CUAL INSERTAR EL NUEVO VALOR INSERTADO-------------\n";
+        cout<< "\n-------------TEST BUSCAR NODO EN EL CUAL INSERTAR EL NUEVO VALOR INSERTADO-------------\n";
         cout << "Este test funciona para grado 3 y 4\n";
 
         if (grado == 3) {
@@ -1003,9 +1026,11 @@ public:
                     pruebaNodoRoot, valorAInsertar5, false);
             resultadoDeBusqueda5->print();
             cout << "\n****************************************\n";
+            
         }
 
         else if (grado == 4) {
+            
             cout << "\nSe crea el siguiente BpTree hardcodeado:\n";
             cout << "| 40 |" << endl;
             cout << "| 20 30 | | 50  60 |" << endl;
@@ -1120,6 +1145,30 @@ public:
                     pruebaNodoRoot, valorAInsertar3, false);
             resultadoDeBusqueda3->print();
             cout << "\n****************************************\n";
+
+            cout << "****************************************\n";
+            cout << "\nSe crea el siguiente BpTree hardcodeado:\n";
+            cout << "| 12 31 42 |" << endl;
+
+            BpTreeNode *pruebaNodoRoot1;
+            pruebaNodoRoot1 = crearNodoVacio();
+            pruebaNodoRoot1->data[0] = 12;
+            pruebaNodoRoot1->data[1] = 31;
+            pruebaNodoRoot1->data[2] = 42;
+            pruebaNodoRoot1->n = 3;
+            for (int i = 0; i < cantClaves; i++) { pruebaNodoRoot1->child_ptr[i] = nullptr; }
+            pruebaNodoRoot1->leaf = true;
+            cout << "****************************************\n";
+            int valorAInsertar4 = 51;
+            cout << "Nuevo valor a insertar: " << valorAInsertar3 << endl;
+            cout << "Nodo en el cual insertar esperado: | 12 31 42 |\n";
+            cout << "Nodo en el cual insertar obtenido: ";
+            BpTreeNode *resultadoDeBusqueda4= buscarNodoEnDondeInsertarValorIngresado(
+                    pruebaNodoRoot1,valorAInsertar4 , false);
+            resultadoDeBusqueda4->print();
+            cout << "\n****************************************\n";
+            
+            
         }
 
     }
@@ -1170,7 +1219,7 @@ public:
             cout << "Se espera lo siguiente:\n";
             cout << "Padre: | 10 40 |\nHijo menor: | 10 30 |\nhijo mayor: | 50 70 |\n";
             cout << "\nSe obtiene lo siguiente: ";
-            separarNodo(pruebaNodoRoot1, pruebaNodoHoja2, insertarValor1,false);
+            separarNodo(pruebaNodoRoot1, pruebaNodoHoja2, insertarValor1,false, false);
             cout << "*********************************************\n";
 
             cout << "\n*********************************************";
@@ -1223,7 +1272,7 @@ public:
             cout << "Se espera lo siguiente:\n";
             cout << "Padre: | 20 22 40 |\nHijo menor: | 20 21 |\nhijo mayor: | 28 30 |";
             cout << "\nSe obtiene lo siguiente: ";
-            separarNodo(pruebaNodoRoot5, pruebaNodoHoja4, insertarValor5,false);
+            separarNodo(pruebaNodoRoot5, pruebaNodoHoja4, insertarValor5,false,false);
             cout << "*********************************************\n";
 
 
@@ -1239,7 +1288,11 @@ public:
             pruebaNodoRoot2->data[2] = 22;
             pruebaNodoRoot2->data[3] = 57;
             pruebaNodoRoot2->n = 4;
-            for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoRoot2->child_ptr[i] = nullptr; }
+            pruebaNodoRoot2->child_ptr[0] = nullptr;
+            pruebaNodoRoot2->child_ptr[1] = nullptr;
+            pruebaNodoRoot2->child_ptr[2] = nullptr;
+            pruebaNodoRoot2->child_ptr[3] = nullptr;
+            pruebaNodoRoot2->child_ptr[4] = nullptr;
             pruebaNodoRoot2->leaf = true;
 
             cout << "Se inserta el valor: " << insertarValor2;
@@ -1247,12 +1300,12 @@ public:
             cout << "Se espera lo siguiente:\n";
             cout << "Padre: | 22 |\nHijo menor: | 15 18 |\nhijo mayor: | 40 57 |";
             cout << "\nSe obtiene lo siguiente: ";
-            separarNodo(pruebaNodoRoot2, pruebaNodoRoot2, insertarValor2,false);
+            separarNodo(pruebaNodoRoot2, pruebaNodoRoot2, insertarValor2,false, true);
             cout << "*********************************************\n";
 
             cout << "\n*********************************************";
             cout << "\nSe crea el siguiente BpTree hardcodeado:\n";
-            cout << "| 15 18 22 57 |" << endl;
+            cout << "| 8 19 23 81 |" << endl;
             int insertarValor3 = 21;
 
             BpTreeNode *pruebaNodoRoot3;
@@ -1270,7 +1323,7 @@ public:
             cout << "Se espera lo siguiente:\n";
             cout << "Padre: | 21 |\nHijo menor: | 8  19 |\nhijo mayor: | 23 81 |\n";
             cout << "\nSe obtiene lo siguiente: ";
-            separarNodo(pruebaNodoRoot3, pruebaNodoRoot3, insertarValor3,false);
+            separarNodo(pruebaNodoRoot3, pruebaNodoRoot3, insertarValor3,false, true);
             cout << "*********************************************\n";
         }
 
@@ -1280,12 +1333,11 @@ public:
             cout << "| 30 50 70 |" << endl;
             cout << "| 10 12 | | 30 40 | | 50 55 60 | | 70 80 90 |" << endl;
             int insertarValor1 = 72;
-            int insertarValor2 = 58;
 
             BpTreeNode *pruebaNodoHoja1;
             pruebaNodoHoja1 = crearNodoVacio();
             pruebaNodoHoja1->data[0] = 10;
-            pruebaNodoHoja1->data[1] = 20;
+            pruebaNodoHoja1->data[1] = 12;
             pruebaNodoHoja1->n = 2;
             for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja1->child_ptr[i] = nullptr; }
             pruebaNodoHoja1->leaf = true;
@@ -1330,21 +1382,14 @@ public:
 
             cout << "Se inserta el valor: " << insertarValor1;
             cout << "\n--------------------------------------\n";
+
             cout << "Se espera lo siguiente:\n";
             cout << "Padre: | 70 |\nHijo menor: | 30 50 |\nhijo mayor: | 80 |\n\n";
             cout << "Padre: | 80 |\nHijo menor: | 70 72 |\nHijo mayor: | 90 |\n";
             cout << "\nSe obtiene lo siguiente: ";
-            separarNodo(pruebaNodoRoot1, pruebaNodoHoja2, insertarValor1, false);
+            separarNodo(pruebaNodoRoot1, pruebaNodoHoja4, insertarValor1, false, false);
             cout << "*********************************************\n\n";
 
-            cout << "Se inserta el valor: " << insertarValor2;
-            cout << "\n--------------------------------------\n";
-            cout << "Se espera lo siguiente:\n";
-            cout << "Padre: | 58 |\nHijo menor: | 30 50 |\nhijo mayor: | 70 |\n\n";
-            cout << "Padre: | 70 |\nHijo menor: | 50 55 |\nHijo mayor: | 60 |\n";
-            cout << "\nSe obtiene lo siguiente: ";
-            separarNodo(pruebaNodoRoot1, pruebaNodoHoja3, insertarValor2, false);
-            cout << "*********************************************\n";
         }
     }
 
@@ -1553,6 +1598,69 @@ public:
             cout << "\n*********************************************\n";
         }
     }
+
+    void test_nodosHojasDelArbol(){
+        cout << "\n-------------TEST NODOS HOJA DEL ARBOL-------------\n";
+        cout << "Este test funciona para grado 4\n\n";
+
+        cout << "*********************************************";
+        cout << "\nSe crea el siguiente BpTree hardcodeado:\n";
+        cout << "| 30 50 70 |" << endl;
+        cout << "| 10 12 | | 30 40 | | 50 55 60 | | 70 80 90 |" << endl;
+
+        BpTreeNode *pruebaNodoHoja1;
+        pruebaNodoHoja1 = crearNodoVacio();
+        pruebaNodoHoja1->data[0] = 10;
+        pruebaNodoHoja1->data[1] = 12;
+        pruebaNodoHoja1->n = 2;
+        for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja1->child_ptr[i] = nullptr; }
+        pruebaNodoHoja1->leaf = true;
+
+        BpTreeNode *pruebaNodoHoja2;
+        pruebaNodoHoja2 = crearNodoVacio();
+        pruebaNodoHoja2->data[0] = 30;
+        pruebaNodoHoja2->data[1] = 40;
+        pruebaNodoHoja2->n = 2;
+        for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja2->child_ptr[i] = nullptr; }
+        pruebaNodoHoja2->leaf = true;
+
+        BpTreeNode *pruebaNodoHoja3;
+        pruebaNodoHoja3 = crearNodoVacio();
+        pruebaNodoHoja3->data[0] = 50;
+        pruebaNodoHoja3->data[1] = 55;
+        pruebaNodoHoja3->data[2] = 60;
+        pruebaNodoHoja3->n = 3;
+        for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja3->child_ptr[i] = nullptr; }
+        pruebaNodoHoja3->leaf = true;
+
+        BpTreeNode *pruebaNodoHoja4;
+        pruebaNodoHoja4 = crearNodoVacio();
+        pruebaNodoHoja4->data[0] = 70;
+        pruebaNodoHoja4->data[1] = 80;
+        pruebaNodoHoja4->data[2] = 90;
+        pruebaNodoHoja4->n = 3;
+        for (int i = 0; i < cantClaves + 1; i++) { pruebaNodoHoja4->child_ptr[i] = nullptr; }
+        pruebaNodoHoja4->leaf = true;
+
+        BpTreeNode *pruebaNodoRoot1;
+        pruebaNodoRoot1 = crearNodoVacio();
+        pruebaNodoRoot1->data[0] = 30;
+        pruebaNodoRoot1->data[1] = 50;
+        pruebaNodoRoot1->data[2] = 70;
+        pruebaNodoRoot1->n = 3;
+        pruebaNodoRoot1->child_ptr[0] = pruebaNodoHoja1;
+        pruebaNodoRoot1->child_ptr[1] = pruebaNodoHoja2;
+        pruebaNodoRoot1->child_ptr[2] = pruebaNodoHoja3;
+        pruebaNodoRoot1->child_ptr[3] = pruebaNodoHoja4;
+        pruebaNodoRoot1->leaf = false;
+
+        cout<<"\n---------------------------------------\n";
+        cout<<"Se esperan los siguientes nodos:\n";
+        cout <<"| 10 12 | | 30 40 | | 50 55 60 | | 70 80 90 |" << endl;
+        cout<<"\nSe obtienen los siguientes nodos:\n";
+        nodosHojasDelArbol(pruebaNodoRoot1);
+
+    }
     /*******************************************************/
 
 private:
@@ -1575,7 +1683,7 @@ private:
         return node;
     }
 
-    int getChildCount(BpTreeNode *node) {
+    static int getChildCount(BpTreeNode *node) {
         int i = 0;
         while (true) {
             if (node->child_ptr[i] == nullptr ) return i;
@@ -1802,9 +1910,9 @@ private:
         int clavesOcupadasPadre = cantidadDeClavesOcupadas(padre);
         int cantidadDeHijosDelPadre = clavesOcupadasPadre + 1;
 
-        for (int k = 0; k < cantidadDeHijosDelPadre ; k++) {
+        /*for (int k = 0; k < cantidadDeHijosDelPadre ; k++) {
            padre->child_ptr[k] = nullptr;
-        }
+        }*/
 
         for (int i = 0; i <= clavesOcupadasPadre; i++) {
 
@@ -1842,28 +1950,43 @@ private:
 
     }
 
-    void separarNodo(BpTreeNode* nodoRoot, BpTreeNode* nodoASeparar, int valorInsertado, bool recursiveCall){
+    void separarNodo(BpTreeNode* nodoRoot, BpTreeNode* nodoASeparar, int valorInsertado, bool recursiveCall, bool nodoUnico){
 
         int valorMedio = buscarMedio(nodoASeparar,valorInsertado);
         bool valorMedioPertenceAlNodo = valorMedioPerteneceANodo(nodoASeparar,valorMedio);
 
+        static int contadorDeRecursividad =0;
+        if(recursiveCall == false){contadorDeRecursividad=0;}
+        else if(recursiveCall== true){
+            contadorDeRecursividad++;
+        }
+
+        if(recursiveCall == false){
+            if(nodoRoot != nodoASeparar || contadorDeRecursividad == 0)///Este if contempla el caso en el que el Arbol solo teng aun nodo y alla que separarlo
+            root = nodoRoot; ///Esto es para cuando se hacen llamadas multiples como en el test. Actualiza
+        }
+
 
         BpTreeNode* padre = getPadre(nodoRoot, nodoASeparar, false);
+        //if(nodoUnico == false){
+
         if(getPadre(nodoRoot, nodoASeparar, false) == nullptr){
             BpTreeNode* padreVacio;
             padreVacio = crearNodoVacio();
             padre = padreVacio;
         }
 
+        //}
+
         BpTreeNode* hijoMenor = crearNodoVacio();
         BpTreeNode* hijoMayor = crearNodoVacio();
-        if( recursiveCall == true){
-            hijoMenor->leaf = false;
-            hijoMayor->leaf = false;
-        }
-        else{
+        if( contadorDeRecursividad == 0){
             hijoMenor->leaf = true;
             hijoMayor->leaf = true;
+        }
+        else{
+            hijoMenor->leaf = false;
+            hijoMayor->leaf = false;
         }
 
 
@@ -1898,12 +2021,13 @@ private:
             /**Rellenamos Padre**/
             int cantidadClavesLlenasPadre1 = cantidadDeClavesOcupadas(padre);
             if(cantidadClavesLlenasPadre1 == cantClaves){
-                separarNodo(nodoRoot,padre,valorMedio, true);
+                separarNodo(nodoRoot,padre,valorMedio, true, false);
                 BpTreeNode* padreNuevo;
                 padreNuevo = crearNodoVacio();
                 padreNuevo->leaf = false;
                 padreNuevo->data[0] = valorMedio;
                 padre = padreNuevo;
+
             }
             int cantidadClavesLlenasPadre = cantidadDeClavesOcupadas(padre);
             padre->data[cantidadClavesLlenasPadre] = valorMedio;
@@ -1912,13 +2036,36 @@ private:
             sort(padre->data, cantidadClavesLlenasPadre);
 
 
+            //if(recursiveCall == true){
+            if(0 < contadorDeRecursividad){
+                root =padre;
+            }
+            if(root != padre){
+                root =padre;
+            }
+            //}
+
+            vector<BpTreeNode*>hijos;
+            hijos.push_back(hijoMenor);
+            hijos.push_back(hijoMayor);
+            organizarPunterosHijosDePadre(padre,hijos);
+
+            if(hijoMenor->leaf == false)
+
             /*Para hacer el test*/
+            cout<<"\n\nRoot del Arbol= ";
+            root->print();
             cout<<"\nPadre: ";
             padre->print();
             cout<<"Hijo menor: ";
             hijoMenor->print();
             cout<<"Hijo mayor: ";
             hijoMayor->print();
+            if(recursiveCall== false){
+            cout<<"\n\nArbol obtenido\n";
+            _printTree(root);
+
+            }
         }
 
         if (valorMedioPertenceAlNodo == false){
@@ -1940,7 +2087,7 @@ private:
             /**Rellenamos Padre**/
             int cantidadClavesLlenasPadre = cantidadDeClavesOcupadas(padre);
             if(cantidadClavesLlenasPadre == cantClaves){
-                separarNodo(nodoRoot,padre,valorMedio, true);
+                separarNodo(nodoRoot,padre,valorMedio, true,false);
                 BpTreeNode* padreNuevo;
                 padreNuevo = crearNodoVacio();
                 padreNuevo->data[0] = valorMedio;
@@ -1950,20 +2097,61 @@ private:
             padre->n++;
             cantidadClavesLlenasPadre++;
             sort(padre->data, cantidadClavesLlenasPadre);
+            root =padre;
+
+            vector<BpTreeNode*>hijos;
+            hijos.push_back(hijoMenor);
+            hijos.push_back(hijoMayor);
+            organizarPunterosHijosDePadre(padre,hijos);
 
             /*Para hacer el test*/
+            cout<<"\n\nRoot del Arbol= ";
+            root->print();
             cout<<"\nPadre: ";
             padre->print();
             cout<<"Hijo menor: ";
             hijoMenor->print();
             cout<<"Hijo mayor: ";
             hijoMayor->print();
+            if(recursiveCall == false){
+
+            cout<<"\n\nArbol obtenido\n";
+            _printTree(root);
+            }
         }
     }
 
     vector<BpTreeNode*> hijosDePadre (BpTreeNode* Root, BpTreeNode* Padre, BpTreeNode* hijoNuevo1, BpTreeNode* hijoNuevo2 ){
 
-        if(hijoNuevo1->leaf == true || hijoNuevo2->leaf == true);
+
+    }
+
+    vector<BpTreeNode*> nodosHojasDelArbol(BpTreeNode* nodoRoot){
+        vector<BpTreeNode*>vectorDeNodosHoja;
+        static int  cantHijos = getChildCount(nodoRoot);
+        int cantidadDeclavesDeHijo = cantidadDeClavesOcupadas(nodoRoot);
+        //BpTreeNode* nodoHoja =crearNodoVacio();
+
+        for(int k=0; k <cantHijos; k++){
+            if (nodoRoot->child_ptr[k]->leaf == true) {
+                vectorDeNodosHoja.push_back(nodoRoot->child_ptr[k]);
+            } else nodosHojasDelArbol(nodoRoot->child_ptr[k]);
+        }
+
+
+
+        /**Pra hacer el test**/
+        int cantidadDeNodosHoja = vectorDeNodosHoja.size();
+        for (int j = 0; j < cantidadDeNodosHoja ; ++j) {
+            cout << " | ";
+            for (int i = 0; i < cantidadDeclavesDeHijo ; ++i) {
+                if(vectorDeNodosHoja[j]->data[i] !=0 )
+                cout <<" "<< vectorDeNodosHoja[j]->data[i];
+            }
+            cout << " | ";
+        }
+        /****/
+        return vectorDeNodosHoja;
     }
 
 
@@ -1971,120 +2159,9 @@ private:
 
 
 
-    int split_child(BpTreeNode *nodoASeparar, int i, int valIngresado)
-    {
-        int j, mid;
-        BpTreeNode *padre, *hijoMenor, *hijoMayor, *y;
-        int midpX=0;  //parametro numero 3 de search_middle
-        int posMedio=0;   //posicion del elemento medio cuando este pertenece al nodoASeparar
-        int separar=0;  //para separar desde un cierto elemento cuando el elemento medio no pertenece a nodoASeparar
-        int separarDesde = buscarMedio(nodoASeparar, valIngresado);
 
-        if (i == -1) //si hay que separar un nodo, dado que esta lleno y es una hoja, sin padre
-        {
-            cout << "\nEl elemento medio es:" << buscarMedio(nodoASeparar, valIngresado) << endl;
-            mid = buscarMedio(nodoASeparar, valIngresado);
-            padre = crearNodoVacio();
-            padre->leaf = false;
-            hijoMenor = crearNodoVacio();
-            hijoMenor->leaf = true;
-            hijoMayor = crearNodoVacio();
-            hijoMayor->leaf = true;
 
-            if (midpX == -1)/*si el elemento a insertar NO pertenece a NodoOriginal*/ {
-                cout << "El elemento medio NO pertenece a X";
-
-                //bucle para rellenar el hijo menor (hijo Izquierdo)
-                cout << endl << "El hijo menor es: ";
-                for (j = 0; j < separar; j++) {
-                    hijoMenor->data[j] = nodoASeparar->data[j];
-                    hijoMenor->child_ptr[j] = nodoASeparar->child_ptr[j];
-                    hijoMenor->n++;
-                    cout << " " << hijoMenor->data[j];
-                }
-                //bucle para rellenar el hijo mayor (hijo Derecho)
-                cout << endl << "El hijo mayor es: ";
-                for (j = separar; j < cantClaves; j++) {
-                    hijoMayor->data[j - separar] = nodoASeparar->data[j];
-                    hijoMayor->child_ptr[j - separar] = nodoASeparar->child_ptr[j];
-                    hijoMayor->n++;
-                    cout << " " << hijoMayor->data[j - separar];
-                }
-                cout << endl << endl;
-                padre->data[padre->n] = mid;
-                padre->child_ptr[padre->n] = hijoMenor;
-                padre->child_ptr[padre->n + 1] = hijoMayor;
-                padre->n++;
-                root = padre;
-            }
-
-            if (midpX == 1) /*si el elemento a insertar pertenece a nodoASeparar*/
-            {
-                cout << "El elemento medio pertenece a X\n";
-
-                //bucle para rellenar el hijo menor (hijo Izquierdo)
-                for (j = 0; j < posMedio; j++) {
-                    hijoMenor->data[j] = nodoASeparar->data[j];
-                    hijoMenor->child_ptr[j] = nodoASeparar->child_ptr[j];
-                    hijoMenor->n++;
-                }
-                if(valIngresado < nodoASeparar->data[posMedio]){
-                    hijoMenor->data[hijoMenor->n] = valIngresado;
-                    sort(hijoMenor->data,hijoMenor->n);
-                    hijoMenor->n++;
-                }
-                cout << endl << "El hijo menor es: ";
-                for(j=0;j < hijoMenor->n;j++){
-                    cout << " " << hijoMenor->data[j];
-                }
-
-                //bucle para rellenar el hijo mayor (hijo Derecho)
-                for (j = posMedio+1; j < cantClaves; j++) {
-                    hijoMayor->data[j - posMedio-1] = nodoASeparar->data[j];
-                    hijoMayor->child_ptr[j - posMedio-1] = nodoASeparar->child_ptr[j];
-                    hijoMayor->n++;
-                }
-                if(nodoASeparar->data[posMedio] < valIngresado){
-                    hijoMayor->data[hijoMayor->n] = valIngresado;
-                    sort(hijoMayor->data,hijoMayor->n);
-                    hijoMayor->n++;
-                }
-                cout << endl << "El hijo mayor es: ";
-                for(j=0;j < hijoMayor->n;j++){
-                    cout << " " << hijoMayor->data[j];
-                }
-                cout << endl << endl;
-
-                padre->data[padre->n] = mid;
-                padre->n++;
-                padre->child_ptr[padre->n] = hijoMenor;
-                padre->child_ptr[padre->n + 1] = hijoMayor;
-                root = padre;
-            }
-        }
-        else
-        {
-            /*FALTA HACERLA CORRECTAMENTE*/
-            hijoMenor= crearNodoVacio();
-            y = nodoASeparar->child_ptr[i];
-            mid = y->data[separarDesde];
-            y->data[separarDesde] = 0;
-            y->n--;
-            for (j = separarDesde+1; j < 5; j++)
-            {
-                hijoMenor->data[j - separarDesde-1] = y->data[j];
-                hijoMenor->n++;
-                y->data[j] = 0;
-                y->n--;
-            }
-            nodoASeparar->child_ptr[i + 1] = y;
-            nodoASeparar->child_ptr[i + 1] = hijoMenor;
-        }
-        return mid;
-
-    }
-
-    void _insert(int valIngresado, BpTreeNode* nodoRoot)
+    /*void _insert(int valIngresado, BpTreeNode* nodoRoot)
     {
         int i, valorNuevoEnPadre;
         nodoRoot = root;
@@ -2157,7 +2234,7 @@ private:
         nodoRoot->data[nodoRoot->n] = valIngresado;
         sort(nodoRoot->data, nodoRoot->n);
         nodoRoot->n++;
-    }
+    }*/
 };
 
 
